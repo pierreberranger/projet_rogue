@@ -25,12 +25,14 @@ class Player(GameCharacter):
         self._y = y_init
 
         _map[self._y][self._x] = self._symbol
+        return {"i": f"{self._y}", "j":f"{self._x}", "content":self._symbol}
 
     def move(self, dx, dy, map):
         new_x = self._x + dx
         new_y = self._y + dy
         win_a_life = map[new_y][new_x] == "£"
         self._life += win_a_life
+
                     
         if map[new_y][new_x] == "." or map[new_y][new_x] == "x" or map[new_y][new_x] == "£":
             ret =True

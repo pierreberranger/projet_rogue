@@ -38,3 +38,5 @@ class GameCharacter:
             ret = False
             data = []
         return data, ret
+    def getLife(self):
+        return self._life
