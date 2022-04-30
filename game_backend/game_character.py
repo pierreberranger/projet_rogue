@@ -1,11 +1,15 @@
 from numpy.random import randint
 
 class GameCharacter:
-    def __init__(self, symbol="@", initial_life=5):
+    def __init__(self, symbol="@", initial_life=5, proba_to_hit=0.5):
         self._symbol = symbol
         self._x = None
         self._y = None
         self._life = initial_life
+        self._proba_to_hit = proba_to_hit
+    
+    def getPos(self):
+        return self._x, self._y
 
     def initPos(self, _map, hidden=False):
         n_row = len(_map)

@@ -2,6 +2,7 @@
 
 from .game_character import GameCharacter
 from .monster import Monster
+from numpy.random import random, randint
 
 class Player(GameCharacter):
     
@@ -59,4 +60,18 @@ class Player(GameCharacter):
     def changeLife(self, new_life):
         self._life += new_life
         return self._life <= 0
+
+    def hitOpponent(self, opponents, map):
+        reachable_opponents = []
+        for key, player in opponents.items():
+            if player.getPos() in [(self._x, self._y+1), (self._x, self._y-1), (self._x+1, self._y), (self._x-1, self._y)] :
+                reachable_opponents.append(key)
+        if len(reachable_opponents)!=0 and random()>self._proba_to_hit :
+            reached_opponent = reachable_opponents[randint(0,len(reachable_opponents))]
+            is_dead= opponents[reached_opponent].changeLife(-1)
+            x, y = opponents[reached_opponent].getPos()
+            map[y][x] = "."
+            return True, reached_opponent, is_dead, {"i": f"{y}", "j":f"{x}", "content":"."}
+        return False, None, False, None
+
 

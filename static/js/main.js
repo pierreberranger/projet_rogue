@@ -22,6 +22,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 break;
             case 13:
                 socket.emit("join", {id: socket.id});
+            case 32:
+                socket.emit("shoot", {id: socket.id});
         }
 
 
@@ -121,6 +123,31 @@ window.addEventListener("DOMContentLoaded", (event) => {
         message.innerHTML = "GAME OVER"
     } )
 
+    socket.on("you missed", function(){
+        console.log("you missed your shot");
+        message.innerHTML = "your missed your shot";
+    } )
 
+    socket.on("you_got_it", function(){
+        console.log("you_got_it");
+        message.innerHTML = "you_got_it";
+    } )
+    socket.on("you_got_shot", function(){
+        console.log("you_got_shot");
+        message.innerHTML = "you_got_shot";
+        var lifes = document.getElementById("life");
+        console.log(lifes.children);
+        if (lifes.children.length > 1){
+            lifes.removeChild(lifes.lastChild);
+        }
+    } )
+    socket.on("a player died", function(data){
+        console.log("a new player died");
+        message.innerHTML = "a new player died";
+        var cell_id = "cell " + data.i + "-" + data.j;
+        var span_to_modif = document.getElementById(cell_id);
+        span_to_modif.textContent = data.content;
+
+    } )
 
 });

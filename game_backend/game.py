@@ -15,6 +15,8 @@ class Game:
 
         self._players = dict()
 
+    def remove(self, player_id):
+        del self._players[player_id]
     def getMap(self):
         return self._map
     def getPlayers(self):
