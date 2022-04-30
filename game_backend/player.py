@@ -1,10 +1,11 @@
 
 
-class Player:
-    def __init__(self, symbol="@"):
-        self._symbol = symbol
-        self._x = None
-        self._y = None
+from .game_character import GameCharacter
+from .monster import Monster
+
+class Player(GameCharacter):
+    
+
 
     def initPos(self, _map):
         n_row = len(_map)
@@ -28,8 +29,10 @@ class Player:
     def move(self, dx, dy, map):
         new_x = self._x + dx
         new_y = self._y + dy
-
-        if map[new_y][new_x] == "." or map[new_y][new_x] == "x" :
+        win_a_life = map[new_y][new_x] == "£"
+        self._life += win_a_life
+                    
+        if map[new_y][new_x] == "." or map[new_y][new_x] == "x" or map[new_y][new_x] == "£":
             ret =True
             map[new_y][new_x] = self._symbol
             map[self._y][self._x] = "x"
@@ -39,4 +42,19 @@ class Player:
         else:
             ret = False
             data = []
-        return data, ret
+        return data, ret, win_a_life
+
+    def nearMonsters(self, monsters):
+        near_monsters = 0
+        monsters_locations = []
+        for monster in monsters:
+            x_m, y_m =monster.getPos()
+            if (x_m, y_m) in [(self._x, self._y+1), (self._x, self._y-1), (self._x+1, self._y), (self._x-1, self._y)] :
+                monsters_locations.append({"i": f"{y_m}", "j":f"{x_m}", "content":monster.getSymbol()})
+                near_monsters += 1
+        return near_monsters, monsters_locations
+
+    def changeLife(self, new_life):
+        self._life += new_life
+        return self._life <= 0
+

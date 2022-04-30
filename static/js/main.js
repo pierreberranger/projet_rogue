@@ -47,13 +47,53 @@ window.addEventListener("DOMContentLoaded", (event) => {
     };
 
 
-    socket.on("response", function(data){
-        console.log(data);
+    socket.on("response", function(received_data){
+        console.log(received_data);
+        data = received_data.data;
+        win_a_life = received_data.win_a_life
+        var message = document.getElementById("message");
+        message.innerHTML = "";
         for( var i=0; i<2; i++){
             var cell_id = "cell " + data[i].i + "-" + data[i].j;
             var span_to_modif = document.getElementById(cell_id);
             span_to_modif.textContent = data[i].content;
         }
+        if (win_a_life){
+            var lifes = document.getElementById("life");
+            life_to_add = document.createElement("span");
+            life_to_add.innerHTML = "£";
+            lifes.appendChild(life_to_add);
+            message.innerHTML = "congratuations you got an extra life !";
+        }
+        socket.emit("is_hit?");
     });
+
+    socket.on("hit", async function(data){
+        console.log(data);
+        n_hits = data.n_hits;
+        monsters_locations = data.monsters_locations;
+        var message = document.getElementById("message");
+        message.innerHTML = `${n_hits} opponents hit you`
+        var lifes = document.getElementById("life");
+        console.log(lifes.children);
+        for (var i=0; i<n_hits; i++){
+            if (lifes.children.length > 1){
+                lifes.removeChild(lifes.lastChild);
+            }
+        }
+        for( var i=0; i<monsters_locations.length; i++){
+            var cell_id = "cell " + monsters_locations[i].i + "-" + monsters_locations[i].j;
+            var span_to_modif = document.getElementById(cell_id);
+            span_to_modif.textContent = monsters_locations[i].content;
+        }
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        socket.emit("is_hit?");
+    });
+
+    socket.on("game_over", function(){
+        console.log("game_over")
+    } )
+
+
 
 });

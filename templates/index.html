@@ -6,30 +6,43 @@
     </head>
     <body>
         <div> <b> Rogue Flask </b></div>
+        <div class="flexbox1">
+            <div class="flexbox2">
+                <div class="thekeypad">
+                    <div class="key"></div>
+                    <div class="key"><input id="go_n" class="keypad_btn" type="button" value="&#9650"> </div>
+                    <div class="key"></div>
+                    <div class="key"><input id="go_w" class="keypad_btn" type="button" value="&#9664"></div>
+                    <div class="key"></div>
+                    <div class="key"><input id="go_e" class="keypad_btn" type="button" value="&#9654"></div>
+                    <div class="key"></div>
+                    <div class="key"><input id="go_s" class="keypad_btn" type="button" value="&#9660"></div>
+                    <div class="key"></div>
+                </div>
 
-        <div class="flexbox">
-            <div class="thekeypad">
-                <div class="key"></div>
-                <div class="key"><input id="go_n" class="keypad_btn" type="button" value="&#9650"> </div>
-                <div class="key"></div>
-                <div class="key"><input id="go_w" class="keypad_btn" type="button" value="&#9664"></div>
-                <div class="key"></div>
-                <div class="key"><input id="go_e" class="keypad_btn" type="button" value="&#9654"></div>
-                <div class="key"></div>
-                <div class="key"><input id="go_s" class="keypad_btn" type="button" value="&#9660"></div>
-                <div class="key"></div>
-            </div>
-
-            <div id="console" style="font-family: monospace;">
-                {% for i in range(n_row) %}
-                <div style="height:18px">
-                    {% for j in range(n_col) %}
-                    <span id="{{ 'cell {}-{}'.format(i,j) }}"> {{ mapdata[i][j] }} </span>
+                <div id="console" style="font-family: monospace;">
+                    {% for i in range(n_row) %}
+                    <div style="height:18px">
+                        {% for j in range(n_col) %}
+                        <span id="{{ 'cell {}-{}'.format(i,j) }}"> {{ mapdata[i][j] }} </span>
+                        {% endfor %}
+                    </div>
                     {% endfor %}
                 </div>
-                {% endfor %}
+            </div>
+            <div id="player_infos">
+                <div id="life">
+                    <span>Life : </span>
+                    {% for j in range(n_life) %}
+                    <span>£</span>
+                    {% endfor %}
+                </div>
+                <div id="message">
+
+                </div>
+
             </div>
         </div>
-
+    
     </body>
 </html>

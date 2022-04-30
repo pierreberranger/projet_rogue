@@ -10,6 +10,8 @@
 
 from __future__ import print_function
 import random
+from .monster import Monster
+from .reward import Reward
 
 CHARACTER_TILES = {'stone': '#',
 
@@ -18,7 +20,7 @@ CHARACTER_TILES = {'stone': '#',
                     'wall': '#'}
 
 class Generator():
-    def __init__(self, width=64, height=64, max_rooms=15, min_room_xy=5, max_room_xy=10, rooms_overlap=False, random_connections=1,random_spurs=3, tiles=CHARACTER_TILES):
+    def __init__(self, width=64, height=64, max_rooms=15, min_room_xy=5, max_room_xy=10, rooms_overlap=False, random_connections=1,random_spurs=3, n_rewards=5, n_monsters=5, hidden_monsters=True, tiles=CHARACTER_TILES):
         self.width = width
         self.height = height
         self.max_rooms = max_rooms
@@ -27,7 +29,10 @@ class Generator():
         self.rooms_overlap = rooms_overlap
         self.random_connections = random_connections
         self.random_spurs = random_spurs
-        self.tiles = CHARACTER_TILES
+        self.tiles = tiles
+        self.nb_rewards = n_rewards
+        self.n_monsters = n_monsters
+        self.hidden_monsters = hidden_monsters
         self.level = []
         self.room_list = []
         self.corridor_list = []
@@ -244,6 +249,21 @@ class Generator():
         #print('Room List: ', self.room_list)
         #print('\nCorridor List: ', self.corridor_list)
         #[print(row) for row in self.tiles_level]
+
+
+    def gen_rewards(self):
+        for i in range(self.nb_rewards):
+            new_reward = Reward()
+            new_reward.initPos(self.tiles_level)
+
+    def gen_monsters(self):
+        monsters = []
+        for i in range(self.n_monsters):
+            new_monster = Monster()
+            new_monster.initPos(self.tiles_level, self.hidden_monsters)
+            monsters.append(new_monster)
+        return monsters
+
 
 if __name__ == '__main__':
     gen = Generator()

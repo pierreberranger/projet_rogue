@@ -1,8 +1,12 @@
 body{
     background-color: slategray;
 }
-
-.flexbox{
+.flexbox1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.flexbox2{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -20,4 +24,11 @@ body{
     background-color: black;
     opacity: 0.75;
     color: cyan;
+}
+
+#message{
+    border: solid;
+    border-radius: 3px;
+    width: 50em;
+    height: 3em;
 }
