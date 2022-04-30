@@ -34,9 +34,12 @@ class Game:
         return self._players[player_id].move(dx, dy, self._map)
     
     def hits(self, player_id):
-        near_monsters, monsters_locations = self._players[player_id].nearMonsters(self._monsters)
+        near_monsters, monsters_locations, data = self._players[player_id].nearMonsters(self._monsters)
         is_dead = self._players[player_id].changeLife(-near_monsters)
-        return near_monsters != 0, near_monsters, is_dead, monsters_locations
+        if is_dead:
+            x, y = self._players[player_id].getPos()
+            self._map[y][x] = "."
+        return near_monsters != 0, near_monsters, is_dead, monsters_locations, data
 
             
     

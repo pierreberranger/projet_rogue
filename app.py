@@ -38,7 +38,7 @@ def on_move_msg(json, methods=["GET", "POST"]):
 def on_is_hit_msg(json):
     print("received is_hit? ws message")
     player_id = json["id"]
-    is_hit, n_hits, is_dead, monsters_locations = game.hits(player_id)
+    is_hit, n_hits, is_dead, monsters_locations, data = game.hits(player_id)
     print(is_hit, n_hits)
     if is_hit:
         socketio.emit("hit_by_monsters", {"n_hits": n_hits, "monsters_locations": monsters_locations}, to=player_id)
@@ -46,7 +46,7 @@ def on_is_hit_msg(json):
             print("GAME OVER for the player")
             socketio.emit("game_over", to=player_id)
             game.remove(player_id)
-            socketio.emit("a player died")
+            socketio.emit("a player died", data)
     
     
 @socketio.on("shoot")

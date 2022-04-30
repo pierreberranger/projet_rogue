@@ -55,7 +55,7 @@ class Player(GameCharacter):
             if (x_m, y_m) in [(self._x, self._y+1), (self._x, self._y-1), (self._x+1, self._y), (self._x-1, self._y)] :
                 monsters_locations.append({"i": f"{y_m}", "j":f"{x_m}", "content":monster.getSymbol()})
                 near_monsters += 1
-        return near_monsters, monsters_locations
+        return near_monsters, monsters_locations, {"i": f"{self._y}", "j":f"{self._x}", "content":"."}
 
     def changeLife(self, new_life):
         self._life += new_life
