@@ -41,6 +41,7 @@ class Game:
             self._map[y][x] = "."
         return near_monsters != 0, near_monsters, is_dead, monsters_locations, data
 
-            
+    def hitOpponent(self, player_id):
+        return self._players[player_id].hitOpponent(self._players, self._map, self._monsters)            
     
     

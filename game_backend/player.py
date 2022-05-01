@@ -57,21 +57,27 @@ class Player(GameCharacter):
                 near_monsters += 1
         return near_monsters, monsters_locations, {"i": f"{self._y}", "j":f"{self._x}", "content":"."}
 
-    def changeLife(self, new_life):
-        self._life += new_life
-        return self._life <= 0
-
-    def hitOpponent(self, opponents, map):
+    def hitOpponent(self, opponents, map, monsters):
         reachable_opponents = []
         for key, player in opponents.items():
             if player.getPos() in [(self._x, self._y+1), (self._x, self._y-1), (self._x+1, self._y), (self._x-1, self._y)] :
-                reachable_opponents.append(key)
+                reachable_opponents.append((player, key))
+        for i, monster in enumerate(monsters):
+            if monster.getPos() in [(self._x, self._y+1), (self._x, self._y-1), (self._x+1, self._y), (self._x-1, self._y)] :
+                reachable_opponents.append((monster, i))
+                
+        
         if len(reachable_opponents)!=0 and random()>self._proba_to_hit :
-            reached_opponent = reachable_opponents[randint(0,len(reachable_opponents))]
-            is_dead= opponents[reached_opponent].changeLife(-1)
-            x, y = opponents[reached_opponent].getPos()
+            reached_opponent, opponent_id = reachable_opponents[randint(0,len(reachable_opponents))]
+            is_dead = reached_opponent.changeLife(-1)
+            x, y = reached_opponent.getPos()
+            if isinstance(opponent_id, int) and is_dead:
+                del monsters[opponent_id]
+                print("wow un monstre tué")
+            else:
+                del opponents[opponent_id]
             map[y][x] = "."
-            return True, reached_opponent, is_dead, {"i": f"{y}", "j":f"{x}", "content":"."}
+            return True, opponent_id, is_dead, {"i": f"{y}", "j":f"{x}", "content":"."}
         return False, None, False, None
 
 

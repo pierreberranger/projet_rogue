@@ -53,14 +53,13 @@ def on_is_hit_msg(json):
 def on_shoot_msg(json):
     player_id = json["id"]
     print(f"received shoot message from {player_id} ")
-    hit, hit_player, is_dead, data = game.getPlayers()[player_id].hitOpponent(game.getPlayers(), game.getMap())
+    hit, hit_player, is_dead, data = game.hitOpponent(player_id)
     if hit:
         socketio.emit("you_got_it", to=player_id)
         socketio.emit("you_got_shot", to=hit_player)
         if is_dead:
             print(f"GAME OVER for the player {hit_player}")
             socketio.emit("game_over", to=hit_player)
-            game.remove(hit_player)
             socketio.emit("a player died", data)
     else:
         socketio.emit("you missed", to=player_id)

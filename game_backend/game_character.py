@@ -44,3 +44,7 @@ class GameCharacter:
         return data, ret
     def getLife(self):
         return self._life
+    
+    def changeLife(self, new_life):
+        self._life += new_life
+        return self._life <= 0
