@@ -6,7 +6,7 @@ from time import sleep
 
 app = Flask(__name__)
 socketio = SocketIO(app)
-game = Game(hidden_monsters=False)
+game = Game(hidden_monsters=True)
 
 @app.route("/")
 def index():

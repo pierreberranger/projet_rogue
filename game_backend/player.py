@@ -21,7 +21,7 @@ class Player(GameCharacter):
             ret =True
             map[new_y][new_x] = self._symbol
             map[self._y][self._x] = "."
-            data = [{"i": f"{self._y}", "j":f"{self._x}", "content":"."}, {"i": f"{new_y}", "j":f"{new_x}", "content":self._symbol}]
+            data = [{"i": f"{self._y}", "j":f"{self._x}", "content":"."}, {"i": f"{new_y}", "j":f"{new_x}", "content":self._html_code}]
             self._x = new_x
             self._y = new_y
         else:
@@ -37,7 +37,7 @@ class Player(GameCharacter):
             x_m, y_m = monster.getPos()
             #if the monster is nearby the player (equivalent to the player is nearby the monster)
             if (x_m, y_m) in [(self._x, self._y+1), (self._x, self._y-1), (self._x+1, self._y), (self._x-1, self._y)] :
-                monsters_locations.append({"i": f"{y_m}", "j":f"{x_m}", "content":monster.getSymbol()})
+                monsters_locations.append({"i": f"{y_m}", "j":f"{x_m}", "content":monster.getCode()})
                 near_monsters += 1
                 n_damage += 1 * (random()>monster.getProba())
         return n_damage, near_monsters, monsters_locations, {"i": f"{self._y}", "j":f"{self._x}", "content":"."} #the data is returned in case of death (player should disappear)

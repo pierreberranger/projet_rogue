@@ -1,16 +1,20 @@
 from numpy.random import randint
 
 class GameCharacter:
-    def __init__(self, symbol="@", initial_life=5, proba_to_hit=0.5, hidden=False):
+    def __init__(self, symbol="@", html_code="""<img src="static\player.png" alt=""></img>""", initial_life=5, proba_to_hit=0.5, hidden=False):
         self._symbol = symbol
         self._x = None
         self._y = None
         self._life = initial_life
         self._proba_to_hit = proba_to_hit
         self._hidden = hidden
+        self._html_code = html_code
     
     def getPos(self):
         return self._x, self._y
+    
+    def getCode(self):
+        return self._html_code
 
     def initPos(self, _map):
         n_row = len(_map)
@@ -27,7 +31,7 @@ class GameCharacter:
 
         if not(self._hidden):
             _map[self._y][self._x] = self._symbol
-            return {"i": f"{self._y}", "j":f"{self._x}", "content":self._symbol}
+            return {"i": f"{self._y}", "j":f"{self._x}", "content":self._html_code}
         return None
     
     def move(self, dx, dy, map):
@@ -38,7 +42,7 @@ class GameCharacter:
             ret =True
             map[new_y][new_x] = self._symbol
             map[self._y][self._x] = "."
-            data = [{"i": f"{self._y}", "j":f"{self._x}", "content":"."}, {"i": f"{new_y}", "j":f"{new_x}", "content":self._symbol}]
+            data = [{"i": f"{self._y}", "j":f"{self._x}", "content":"."}, {"i": f"{new_y}", "j":f"{new_x}", "content":self._html_code}]
             self._x = new_x
             self._y = new_y
         else:

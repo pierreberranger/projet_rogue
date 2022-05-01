@@ -1,14 +1,46 @@
 body{
     background-color: slategray;
 }
+.thekeypad{
+}
+#title{
+    margin-bottom: 1.5em;
+    margin-top: 0.5em;
+    font-size: 4em;
+    border: solid;
+    border-radius: 4px;
+}
+#player_infos{
+    margin-top: 3em;
+    margin-bottom: 1.5em;
+}
+img{
+    display: block;
+    height: 1em;
+    width: 1em;
+    margin: 0;
+}
+.mapcell{
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    margin: 0;
+    padding: 0;
+}
 .flexbox1{
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content:space-between ;
 }
 .flexbox2{
+    width: 100%;
     display: flex;
+    border: solid;
+    border-radius: 3px;
     flex-direction: row;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -31,4 +63,16 @@ body{
     border-radius: 3px;
     width: 50em;
     height: 3em;
+    padding: 0.5em;
+}
+#life_bar{
+    margin: 1em;
+}
+
+.life{
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    margin: 0.1em;
+    
 }

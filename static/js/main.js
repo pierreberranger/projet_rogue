@@ -59,9 +59,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
     socket.on("you_joined", function(data){
         message.innerHTML = "you joined successfully!";
         for(var i=0; i<data.lifes; i++){
-            var lifes = document.getElementById("life");
+            var lifes = document.getElementById("life_bar");
             life_to_add = document.createElement("span");
-            life_to_add.innerHTML = "£";
+            life_to_add.classList.add("life");
+            life_to_add.innerHTML = `<img src="static\\life.png" alt=""></img>`;
             lifes.appendChild(life_to_add);
         }
     })
@@ -72,7 +73,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         data = received_data.data;
         var cell_id = "cell " + data.i + "-" + data.j;
         var span_to_modif = document.getElementById(cell_id);
-        span_to_modif.textContent = data.content;
+        span_to_modif.innerHTML = data.content;
 
     })
     socket.on("response", function(received_data){
@@ -82,12 +83,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
         for( var i=0; i<2; i++){
             var cell_id = "cell " + data[i].i + "-" + data[i].j;
             var span_to_modif = document.getElementById(cell_id);
-            span_to_modif.textContent = data[i].content;
+            span_to_modif.innerHTML = data[i].content;
         }
         if (win_a_life && (socket.id == player_id)){
-            var lifes = document.getElementById("life");
+            var lifes = document.getElementById("life_bar");
             life_to_add = document.createElement("span");
-            life_to_add.innerHTML = "£";
+            life_to_add.classList.add("life") ;
+            life_to_add.innerHTML = `<img src="static\\life.png" alt=""></img>`;
             lifes.appendChild(life_to_add);
             message.innerHTML = "congratuations you got an extra life !";
             clean(500);
@@ -101,7 +103,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         monsters_locations = data.monsters_locations;
         message.innerHTML = `${n_hits} monsters hit you`
         clean(500);
-        var lifes = document.getElementById("life");
+        var lifes = document.getElementById("life_bar");
         console.log(lifes.children);
         for (var i=0; i<n_hits; i++){
             if (lifes.children.length > 1){
@@ -111,7 +113,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         for( var i=0; i<monsters_locations.length; i++){
             var cell_id = "cell " + monsters_locations[i].i + "-" + monsters_locations[i].j;
             var span_to_modif = document.getElementById(cell_id);
-            span_to_modif.textContent = monsters_locations[i].content;
+            span_to_modif.innerHTML = monsters_locations[i].content;
         }
         await new Promise(resolve => setTimeout(resolve, 500));
         console.log({id: socket.id});
@@ -127,7 +129,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         console.log("you_got_shot");
         message.innerHTML = "you_got_shot";
         clean(500);
-        var lifes = document.getElementById("life");
+        var lifes = document.getElementById("life_bar");
         console.log(lifes.children);
         if (lifes.children.length > 1){
             lifes.removeChild(lifes.lastChild);
@@ -139,7 +141,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         clean(500);
         var cell_id = "cell " + data.i + "-" + data.j;
         var span_to_modif = document.getElementById(cell_id);
-        span_to_modif.textContent = data.content;
+        span_to_modif.innerHTML = data.content;
 
     } )
     socket.on("game_over", function(){

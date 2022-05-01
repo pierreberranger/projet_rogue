@@ -5,8 +5,8 @@
         <script type="text/javascript" src={{ url_for("static", filename="js/main.js") }}></script>
     </head>
     <body>
-        <div> <b> Rogue Flask </b></div>
         <div class="flexbox1">
+            <div id="title"> <b> Rogue Flask </b></div>
             <div class="flexbox2">
                 <div class="thekeypad">
                     <div class="key"></div>
@@ -24,15 +24,28 @@
                     {% for i in range(n_row) %}
                     <div style="height:18px">
                         {% for j in range(n_col) %}
-                        <span id="{{ 'cell {}-{}'.format(i,j) }}"> {{ mapdata[i][j] }} </span>
+                            {%if mapdata[i][j] == "#" %}
+                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\bloc.png" sizes=""> </span>
+                            {%elif mapdata[i][j] == "£" %}
+                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\life.png" sizes=""> </span>
+                            {%elif mapdata[i][j] == "@" %}
+                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\player.png" sizes=""> </span>
+                            {%elif mapdata[i][j] == "§" %}
+                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\monster.png" sizes=""> </span>
+                            {%else%}
+                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> {{mapdata[i][j]}} </span>
+                            {%endif%}
+                        
                         {% endfor %}
                     </div>
                     {% endfor %}
                 </div>
             </div>
             <div id="player_infos">
-                <div id="life">
+                <div id="life_bar">
                     <span>Life : </span>
+                    
+                    
                 </div>
                 <div id="message">
 
