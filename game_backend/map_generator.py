@@ -259,8 +259,8 @@ class Generator():
     def gen_monsters(self):
         monsters = []
         for i in range(self.n_monsters):
-            new_monster = Monster()
-            new_monster.initPos(self.tiles_level, self.hidden_monsters)
+            new_monster = Monster(hidden=self.hidden_monsters)
+            _ = new_monster.initPos(self.tiles_level)
             monsters.append(new_monster)
         return monsters
 
@@ -269,3 +269,5 @@ if __name__ == '__main__':
     gen = Generator()
     gen.gen_level()
     gen.gen_tiles_level()
+    gen.gen_rewards()
+    gen.gen_monsters()

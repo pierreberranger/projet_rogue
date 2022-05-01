@@ -1,10 +1,10 @@
 
 
+
 window.addEventListener("DOMContentLoaded", (event) => {
     var socket = io.connect("http://" + document.domain + ":" + location.port );
     var message = document.getElementById("message");
     message.innerHTML = `press enter to join the game`;
-    console.log("coucou");
 
     document.onkeydown = function(e){
         switch(e.keyCode){
@@ -22,8 +22,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 break;
             case 13:
                 socket.emit("join", {id: socket.id});
+                break;
             case 32:
                 socket.emit("shoot", {id: socket.id});
+                console.log("shoot");
+                break;
         }
 
 
@@ -52,6 +55,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         console.log("Clicked on button e");
         socket.emit("move", {dx:1, dy:0, id:socket.id});
     };
+
     socket.on("you_joined", function(data){
         message.innerHTML = "you joined successfully!";
         for(var i=0; i<data.lifes; i++){
@@ -72,12 +76,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     })
     socket.on("response", function(received_data){
-        console.log(received_data);
         data = received_data.data;
         win_a_life = received_data.win_a_life;
         player_id = received_data.id;
-        var message = document.getElementById("message");
-        message.innerHTML = "";
         for( var i=0; i<2; i++){
             var cell_id = "cell " + data[i].i + "-" + data[i].j;
             var span_to_modif = document.getElementById(cell_id);
@@ -89,8 +90,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
             life_to_add.innerHTML = "£";
             lifes.appendChild(life_to_add);
             message.innerHTML = "congratuations you got an extra life !";
+            clean(500);
         }
-        console.log({id: socket.id});
         socket.emit("is_hit?", {id: socket.id});
     });
 
@@ -98,8 +99,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
         console.log(data);
         n_hits = data.n_hits;
         monsters_locations = data.monsters_locations;
-        var message = document.getElementById("message");
         message.innerHTML = `${n_hits} monsters hit you`
+        clean(500);
         var lifes = document.getElementById("life");
         console.log(lifes.children);
         for (var i=0; i<n_hits; i++){
@@ -112,29 +113,20 @@ window.addEventListener("DOMContentLoaded", (event) => {
             var span_to_modif = document.getElementById(cell_id);
             span_to_modif.textContent = monsters_locations[i].content;
         }
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 500));
         console.log({id: socket.id});
         socket.emit("is_hit?", {id: socket.id});
     });
 
-    socket.on("game_over", function(){
-        console.log("game_over");
-        socket.disconnect();
-        message.innerHTML = "GAME OVER"
-    } )
-
-    socket.on("you missed", function(){
-        console.log("you missed your shot");
-        message.innerHTML = "your missed your shot";
-    } )
-
-    socket.on("you_got_it", function(){
-        console.log("you_got_it");
-        message.innerHTML = "you_got_it";
+    socket.on("shoot result", function(response){
+        console.log(response);
+        message.innerHTML = response;
+        clean(500);
     } )
     socket.on("you_got_shot", function(){
         console.log("you_got_shot");
         message.innerHTML = "you_got_shot";
+        clean(500);
         var lifes = document.getElementById("life");
         console.log(lifes.children);
         if (lifes.children.length > 1){
@@ -144,10 +136,22 @@ window.addEventListener("DOMContentLoaded", (event) => {
     socket.on("a player died", function(data){
         console.log("a new player died");
         message.innerHTML = "a new player died";
+        clean(500);
         var cell_id = "cell " + data.i + "-" + data.j;
         var span_to_modif = document.getElementById(cell_id);
         span_to_modif.textContent = data.content;
 
     } )
+    socket.on("game_over", function(){
+        console.log("game_over");
+        socket.disconnect();
+        message.innerHTML = "GAME OVER"
+    } )
+
+    async function clean(ms){
+        await new Promise(resolve => setTimeout(resolve, ms));
+        message.innerHTML = "";
+
+    }
 
 });

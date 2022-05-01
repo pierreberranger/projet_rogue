@@ -8,25 +8,7 @@ class Player(GameCharacter):
     
 
 
-    def initPos(self, _map):
-        n_row = len(_map)
-        #n_col = len(_map[0])
-
-        y_init = n_row//2
-        found = False
-        while found is False:
-            y_init += 1
-            for i,c in enumerate(_map[y_init]):
-                if c == ".":
-                    x_init = i
-                    found = True
-                    break
-
-        self._x = x_init
-        self._y = y_init
-
-        _map[self._y][self._x] = self._symbol
-        return {"i": f"{self._y}", "j":f"{self._x}", "content":self._symbol}
+    
 
     def move(self, dx, dy, map):
         new_x = self._x + dx
@@ -49,13 +31,16 @@ class Player(GameCharacter):
 
     def nearMonsters(self, monsters):
         near_monsters = 0
+        n_damage = 0
         monsters_locations = []
         for monster in monsters:
-            x_m, y_m =monster.getPos()
+            x_m, y_m = monster.getPos()
+            #if the monster is nearby the player (equivalent to the player is nearby the monster)
             if (x_m, y_m) in [(self._x, self._y+1), (self._x, self._y-1), (self._x+1, self._y), (self._x-1, self._y)] :
                 monsters_locations.append({"i": f"{y_m}", "j":f"{x_m}", "content":monster.getSymbol()})
                 near_monsters += 1
-        return near_monsters, monsters_locations, {"i": f"{self._y}", "j":f"{self._x}", "content":"."}
+                n_damage += 1 * (random()>monster.getProba())
+        return n_damage, near_monsters, monsters_locations, {"i": f"{self._y}", "j":f"{self._x}", "content":"."} #the data is returned in case of death (player should disappear)
 
     def hitOpponent(self, opponents, map, monsters):
         reachable_opponents = []
@@ -74,9 +59,10 @@ class Player(GameCharacter):
             if isinstance(opponent_id, int) and is_dead:
                 del monsters[opponent_id]
                 print("wow un monstre tué")
-            else:
+                map[y][x] = "."
+            elif is_dead:
                 del opponents[opponent_id]
-            map[y][x] = "."
+                map[y][x] = "."
             return True, opponent_id, is_dead, {"i": f"{y}", "j":f"{x}", "content":"."}
         return False, None, False, None
 

@@ -1,17 +1,18 @@
 from numpy.random import randint
 
 class GameCharacter:
-    def __init__(self, symbol="@", initial_life=5, proba_to_hit=0.5):
+    def __init__(self, symbol="@", initial_life=5, proba_to_hit=0.5, hidden=False):
         self._symbol = symbol
         self._x = None
         self._y = None
         self._life = initial_life
         self._proba_to_hit = proba_to_hit
+        self._hidden = hidden
     
     def getPos(self):
         return self._x, self._y
 
-    def initPos(self, _map, hidden=False):
+    def initPos(self, _map):
         n_row = len(_map)
         #n_col = len(_map[0])
 
@@ -24,8 +25,10 @@ class GameCharacter:
         self._x = x_init
         self._y = y_init
 
-        if not(hidden):
+        if not(self._hidden):
             _map[self._y][self._x] = self._symbol
+            return {"i": f"{self._y}", "j":f"{self._x}", "content":self._symbol}
+        return None
     
     def move(self, dx, dy, map):
         new_x = self._x + dx
@@ -48,3 +51,10 @@ class GameCharacter:
     def changeLife(self, new_life):
         self._life += new_life
         return self._life <= 0
+    
+    def getSymbol(self):
+        return self._symbol
+    
+    def getProba(self):
+        return self._proba_to_hit
+    
