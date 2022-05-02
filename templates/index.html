@@ -8,6 +8,16 @@
         <div class="flexbox1">
             <div id="title"> <b> Rogue Flask </b></div>
             <div class="flexbox2">
+                <span>Game ID:</span><span id="game_id">  {{game_id}}</span>
+                <div id="new_level_or_invite_friends_message">
+                    {%if multi%}
+                    <span>To invite your friends to this game, give them the game_id</span>
+                    {%else%}
+                    <form action="/play" method="get">
+                    <button id="join_multi" type="submit" >new_level</button>
+                    <input type="hidden" name="multi" value="0" />
+                    {%endif%}
+                </div>
                 <div class="thekeypad">
                     <div class="key"></div>
                     <div class="key"><input id="go_n" class="keypad_btn" type="button" value="&#9650"> </div>
@@ -22,7 +32,7 @@
 
                 <div id="console" style="font-family: monospace;">
                     {% for i in range(n_row) %}
-                    <div style="height:18px">
+                    <div class="line" style="height:18px">
                         {% for j in range(n_col) %}
                             {%if mapdata[i][j] == "#" %}
                                 <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\bloc.png" sizes=""> </span>

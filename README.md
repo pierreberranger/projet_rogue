@@ -46,3 +46,13 @@ Pour la notation, histoire qu'il n'y ait pas de surprise, voici les règles :
 * Si les points (1) + (2) + (3) + (4) + (5) sont traités => 20/20
 
 La date de rendu, qui est fixée dans le github classroom, est le **03/05/2021 à 12h00**. 
+
+
+
+A faire:
+- couleurs/seringue
+- faire bouger les monstres
+- faire un pad plus qtylé: bouton join/ tir
+- custom la jauge de vie/message
+- adaptabilité du jeu?
+- page d'accueil: multi/seul/niveaux/sauvegarder

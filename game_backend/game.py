@@ -3,7 +3,7 @@ from .player import Player
 
 
 class Game:
-    def __init__(self, width=96, height=32, time_between_hits=1, hidden_monsters=True):
+    def __init__(self, width=96, height=32, time_between_hits=1, hidden_monsters=True, multiplayer=False):
         self._generator = Generator(width=width, height=height, hidden_monsters=hidden_monsters)
         self._generator.gen_level()
         self._generator.gen_tiles_level()
@@ -12,7 +12,10 @@ class Game:
         self._monsters = self._generator.gen_monsters()
         self._time_between_hits = time_between_hits
         self._players = dict()
-
+        self._multiplayer = multiplayer
+    
+    def isMultiplayer(self):
+        return self._multiplayer
     def removePlayer(self, player_id):
         del self._players[player_id]
 

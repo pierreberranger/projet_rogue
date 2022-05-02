@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href={{ url_for("static", filename="css/main.css") }}>
+    </head>
+    <body>
+        <form action="/play" method="get">
+            <button id="join_multi" type="submit" >start a one player game</button>
+            <input type="hidden" name="multi" value="0" />
+        </form>
+        <form action="/play" method="get">
+            <label for="game_id">Game ID :</label>
+            <input type="number" id="str" name="game_id">
+            <input type="hidden" name="multi" value="1" />
+            <button id="join_multi" type="submit">join a multiplayer game</button>
+        </form>
+        <form action="/play" method="get">
+            <label for="game_id">Game ID :</label>
+            <input type="number" id="str" name="game_id">
+            <input type="hidden" name="multi" value="0" />
+            <button id="resume" type="submit">resume a one player game</button>
+        </form>
+        <form action="/play" method="get">
+            <input type="hidden" name="multi" value="1" />
+            <button id="createmulti" type="submit">create a multiplayergame</button>
+        </form>
+
+
+    </body>
+</html>
