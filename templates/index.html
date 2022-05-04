@@ -14,8 +14,9 @@
                     <span>To invite your friends to this game, give them the game_id</span>
                     {%else%}
                     <form action="/play" method="get">
-                    <button id="join_multi" type="submit" >new_level</button>
+                    <button id="new_level" type="submit" >new_level</button>
                     <input type="hidden" name="multi" value="0" />
+                    <button id="save_game" type="button" >come back later</button>
                     {%endif%}
                 </div>
                 <div class="thekeypad">
