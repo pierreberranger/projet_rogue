@@ -50,9 +50,9 @@ La date de rendu, qui est fixée dans le github classroom, est le **03/05/2021 �
 
 
 A faire:
-- couleurs/seringue
-- faire bouger les monstres
-- faire un pad plus qtylé: bouton join/ tir
-- custom la jauge de vie/message
-- adaptabilité du jeu?
-- page d'accueil: multi/seul/niveaux/sauvegarder
+- affichage:
+  - seringue à la place des vies trouver une image qui se voit
+  - rendre les deux pages sexy
+  - adaptabilité du jeu sur tous les navigateurs/ordinateurs: ajd ne marche que sur Firefox avec un zoom adequat pour l'affichage (60% pour moi)
+- bug à patcher: si des cookies sont encore en place au restart du serveur (ceci n'arrive pas si le serveur reste permanent): index error sur start a single player game
+- ajouter un victory message si un joueur arrive a tuer tous les monstres (et adversaires présents en multi)

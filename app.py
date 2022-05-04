@@ -6,46 +6,51 @@ from game_backend.game_index import *
 
 app = Flask(__name__)
 socketio = SocketIO(app)
-game_index = GameIndex()
-player_index = dict()
-game = Game(hidden_monsters=True)
+game_index = GameIndex()  #register every games created on the server
+player_index = dict()     #match player id with current socket id of the player
 
-@app.route("/play")
-def play():
-    game_id = request.args.get("game_id", default=None)
-    multi = request.args.get("multi") == "1"
-    if game_id==None and (request.cookies.get('game_id')==None or multi):
-        game_id = generateId(game_index)
-        game = Game(multiplayer=multi)
-        game_index[game_id] = game
-    elif not(multi): 
-        game_id = request.cookies.get('game_id')
-    if not (game_id in game_index.keys()):
-        return render_template("unexisting_id.html")
-    
-    game = game_index[game_id]
-    
-    if game.isMultiplayer() != multi:
-        return render_template("unexisting_id.html")
-    map = game.getMap()
-    nb_players = len(game.getPlayers())
-    if nb_players>1 and not(game.isMultiplayer()):
-        return render_template("to_many_players.html")
-    return render_template("index.html", mapdata=map, n_row=len(map), n_col=len(map[0]), game_id=game_id, multi=multi)
+
 
 @app.route("/")
 def welcome():
     return render_template("welcome.html")
 
 
+@app.route("/play")
+def play():
+    game_id = request.args.get("game_id", default=None)
+    is_multiplayer = request.args.get("multi") == "1"
+    if game_id==None and (request.cookies.get('game_id')==None or is_multiplayer):
+        game_id = generateId(game_index)
+        game = Game(multiplayer=is_multiplayer)
+        game_index[game_id] = game
+    elif not(is_multiplayer): 
+        game_id = request.cookies.get('game_id')
+    if not (game_id in game_index.keys()):
+        return render_template("unexisting_id.html")
+    
+    game = game_index[game_id]
+    
+    if game.isMultiplayer() != is_multiplayer:
+        return render_template("unexisting_id.html")
+    map = game.getMap()
+    nb_players = len(game.getPlayers())
+    if nb_players>1 and not(game.isMultiplayer()):
+        return render_template("to_many_players.html")
+    return render_template("play.html", mapdata=map, n_row=len(map), n_col=len(map[0]), game_id=game_id, multi=is_multiplayer)
+
+
+
 @socketio.on("join")
 def on_join_msg(json):
+    #load data
     room = json["room"]
     socket_id = json["id"]
     player_id = json["player_id"]
     game = game_index[room]
     player_index[player_id] = socket_id
     print(f"received new join message from {socket_id}")
+
     join_room(room)
     if not(player_id in game.getPlayers().keys()):
         data = game.addPlayer(player_id)
@@ -57,15 +62,20 @@ def on_join_msg(json):
 
 @socketio.on("get a saved game")
 def save_msg(json):
+    #load data
     socket_id = json["id"]
     player_id = json["player_id"]
     room = json["room"]
-    join_room(room)
+    print(f" {socket_id} wants to join a saved game")
     game = game_index[room]
+
+    join_room(room)
     try:
         check_id(player_id, socket_id)
     except KeyError :
-        player_index[player_id] = socket_id
+        #if the player_id is remaining from an old cookie, we can have a get a saved game request without knowing the player id
+        player_index[player_id] = socket_id 
+    #for the same reason, we sometimes have to create a player 
     if len(game.getPlayers())==0:
         data = game.addPlayer(player_id)
         socketio.emit("new_user", {"data": data}, room=room)
@@ -74,6 +84,7 @@ def save_msg(json):
 
 @socketio.on("move")
 def on_move_msg(json, methods=["GET", "POST"]):
+    #load data
     room = json["room"]
     socket_id = json["id"]
     player_id = json["player_id"]
@@ -82,18 +93,21 @@ def on_move_msg(json, methods=["GET", "POST"]):
     print(f"received move ws message from {player_id}")
     dx = json['dx']
     dy = json["dy"]
+
     data, ret, win_a_life = game.move(dx, dy, player_id)
     if ret:
-        socketio.emit("response", {"data": data, "win_a_life": win_a_life, "id": player_id}, room=room )
+        socketio.emit("moove response", {"data": data, "win_a_life": win_a_life, "id": player_id}, room=room )
 
 @socketio.on("is_hit?")
 def on_is_hit_msg(json):
+    #load data
     room = json["room"]
     socket_id = json["id"]
     player_id = json["player_id"]
     check_id(player_id, socket_id)
     game = game_index[room]
     print(f"received is_hit? ws message from {player_id}")
+
     is_near, is_hit, n_hits, is_dead, monsters_locations, data = game.is_hit(player_id)
     if is_near:
         socketio.emit("hit_by_monsters", {"n_hits": n_hits,"is_hit": is_hit, "monsters_locations": monsters_locations}, to=player_index[player_id])
@@ -107,12 +121,14 @@ def on_is_hit_msg(json):
 
 @socketio.on("shoot")
 def on_shoot_msg(json):
+    #load data
     room = json["room"]
     socket_id = json["id"]
     player_id = json["player_id"]
     check_id(player_id, socket_id)
     game = game_index[room]
     print(f"received shoot message from {player_id} ")
+    
     hit, hit_player, is_dead, data = game.hitOpponent(player_id)
     if hit:
         socketio.emit("shoot result", "you got it", to=player_index[player_id])
