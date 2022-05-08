@@ -130,7 +130,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         console.log("you joined");
         message.innerHTML = "you joined successfully!";
         var lifes = document.getElementById("life_bar");
-        lifes.innerHTML="<span>Life : </span>";
+        lifes.innerHTML="<span>Lifes : </span>";
         for(var i=0; i<data.lifes; i++){
             life_to_add = document.createElement("span");
             life_to_add.classList.add("life");

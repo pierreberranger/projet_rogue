@@ -9,7 +9,7 @@
             <div id="title"> <b> Rogue Flask </b></div>
             <div class="flexbox2">
                 <div id="buttons">
-                    <span>Game ID:</span><span id="game_id">  {{game_id}}</span>
+                    <span class="game_id">Game ID:</span><span class="game_id" id="game_id">  {{game_id}}</span>
                     <div id="new_level_or_invite_friends_message">
                         {%if multi%}
                         <span>To invite your friends to this game, give them the game_id</span>
@@ -43,7 +43,7 @@
                             {%elif mapdata[i][j] == "@" %}
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\player.png" sizes=""> </span>
                             {%elif mapdata[i][j] == "§" %}
-                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\monster.png" sizes=""> </span>
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\monster_red.png" sizes=""> </span>
                             {%else%}
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}" > mapdata[i][j] </span>
                             {%endif%}
