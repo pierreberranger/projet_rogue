@@ -129,8 +129,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
     socket.on("you_joined", function(data){
         console.log("you joined");
         message.innerHTML = "you joined successfully!";
+        var lifes = document.getElementById("life_bar");
+        lifes.innerHTML="<span>Life : </span>";
         for(var i=0; i<data.lifes; i++){
-            var lifes = document.getElementById("life_bar");
             life_to_add = document.createElement("span");
             life_to_add.classList.add("life");
             life_to_add.innerHTML = `<img src="static\\life.png" alt=""></img>`;

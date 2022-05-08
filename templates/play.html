@@ -8,45 +8,46 @@
         <div class="flexbox1">
             <div id="title"> <b> Rogue Flask </b></div>
             <div class="flexbox2">
-                <span>Game ID:</span><span id="game_id">  {{game_id}}</span>
-                <div id="new_level_or_invite_friends_message">
-                    {%if multi%}
-                    <span>To invite your friends to this game, give them the game_id</span>
-                    {%else%}
-                    <form action="/play" method="get">
-                    <button id="new_level" type="submit" >new_level</button>
-                    <input type="hidden" name="multi" value="0" />
-                    <button id="save_game" type="button" >come back later</button>
-                    {%endif%}
+                <div id="buttons">
+                    <span>Game ID:</span><span id="game_id">  {{game_id}}</span>
+                    <div id="new_level_or_invite_friends_message">
+                        {%if multi%}
+                        <span>To invite your friends to this game, give them the game_id</span>
+                        {%else%}
+                        <form action="/play" method="get">
+                        <button id="new_level" class="button" type="submit" >new_level</button>
+                        <input type="hidden"  name="multi" value="0" />
+                        <button id="save_game" class="button" type="button" >come back later</button>
+                        {%endif%}
+                    </div>
+                    <div class="thekeypad">
+                        <div class="key"></div>
+                        <div class="key"><input id="go_n" class="keypad_btn" type="button" value="&#9650"> </div>
+                        <div class="key"></div>
+                        <div class="key"><input id="go_w" class="keypad_btn" type="button" value="&#9664"></div>
+                        <div class="key"></div>
+                        <div class="key"><input id="go_e" class="keypad_btn" type="button" value="&#9654"></div>
+                        <div class="key"></div>
+                        <div class="key"><input id="go_s" class="keypad_btn" type="button" value="&#9660"></div>
+                        <div class="key"></div>
+                    </div>
                 </div>
-                <div class="thekeypad">
-                    <div class="key"></div>
-                    <div class="key"><input id="go_n" class="keypad_btn" type="button" value="&#9650"> </div>
-                    <div class="key"></div>
-                    <div class="key"><input id="go_w" class="keypad_btn" type="button" value="&#9664"></div>
-                    <div class="key"></div>
-                    <div class="key"><input id="go_e" class="keypad_btn" type="button" value="&#9654"></div>
-                    <div class="key"></div>
-                    <div class="key"><input id="go_s" class="keypad_btn" type="button" value="&#9660"></div>
-                    <div class="key"></div>
-                </div>
-
                 <div id="console" style="font-family: monospace;">
                     {% for i in range(n_row) %}
                     <div class="line" style="height:18px">
                         {% for j in range(n_col) %}
                             {%if mapdata[i][j] == "#" %}
-                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\bloc.png" sizes=""> </span>
+                                <span class="mapcell bloc" id="{{ 'cell {}-{}'.format(i,j) }}">  </span>
                             {%elif mapdata[i][j] == "£" %}
-                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\life.png" sizes=""> </span>
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\life.png" sizes=""> </span>
                             {%elif mapdata[i][j] == "@" %}
-                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\player.png" sizes=""> </span>
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\player.png" sizes=""> </span>
                             {%elif mapdata[i][j] == "§" %}
-                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\monster.png" sizes=""> </span>
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\monster.png" sizes=""> </span>
                             {%else%}
-                                <span class="mapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> {{mapdata[i][j]}} </span>
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}" > mapdata[i][j] </span>
                             {%endif%}
-                        
+                                
                         {% endfor %}
                     </div>
                     {% endfor %}
@@ -54,7 +55,7 @@
             </div>
             <div id="player_infos">
                 <div id="life_bar">
-                    <span>Life : </span>
+                    <span>Lifes : </span>
                     
                     
                 </div>

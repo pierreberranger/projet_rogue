@@ -49,7 +49,7 @@ def on_join_msg(json):
     player_id = json["player_id"]
     game = game_index[room]
     player_index[player_id] = socket_id
-    print(f"received new join message from {socket_id}")
+    print(f"received new join message from {player_id}")
 
     join_room(room)
     if not(player_id in game.getPlayers().keys()):
