@@ -16,16 +16,17 @@ class GameCharacter:
     def getCode(self):
         return self._html_code
 
-    def initPos(self, _map):
+    def initPos(self, _map, pos=None):
         n_row = len(_map)
         #n_col = len(_map[0])
-
-        y_init = randint(0, n_row)
-        x_init = randint(0, len(_map[y_init]))
-        while _map[y_init][x_init] != ".":
+        if pos == None :
             y_init = randint(0, n_row)
             x_init = randint(0, len(_map[y_init]))
-
+            while _map[y_init][x_init] != ".":
+                y_init = randint(0, n_row)
+                x_init = randint(0, len(_map[y_init]))
+        else:
+            x_init, y_init = pos
         self._x = x_init
         self._y = y_init
 
@@ -39,7 +40,7 @@ class GameCharacter:
         new_y = self._y + dy
 
         if map[new_y][new_x] == "." or map[new_y][new_x] == "x" :
-            ret =True
+            ret = True
             map[new_y][new_x] = self._symbol
             map[self._y][self._x] = "."
             data = [{"i": f"{self._y}", "j":f"{self._x}", "content":"."}, {"i": f"{new_y}", "j":f"{new_x}", "content":self._html_code}]
@@ -61,4 +62,11 @@ class GameCharacter:
     
     def getProba(self):
         return self._proba_to_hit
+    
+    def remove(self, map, symbol):
+        map[self._y][self._x] = symbol
+    def setPos(self, x, y):
+        self._x = x
+        self._y = y
+        
     

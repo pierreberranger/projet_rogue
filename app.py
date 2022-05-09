@@ -22,7 +22,7 @@ def play():
     is_multiplayer = request.args.get("multi") == "1"
     if game_id==None and (request.cookies.get('game_id')==None or is_multiplayer):
         game_id = generateId(game_index)
-        game = Game(multiplayer=is_multiplayer)
+        game = Game(is_multiplayer=is_multiplayer)
         game_index[game_id] = game
     elif not(is_multiplayer): 
         game_id = request.cookies.get('game_id')
@@ -94,8 +94,13 @@ def on_move_msg(json, methods=["GET", "POST"]):
     dx = json['dx']
     dy = json["dy"]
 
-    data, ret, win_a_life = game.move(dx, dy, player_id)
-    if ret:
+    data, ret, win_a_life, on_ladder = game.move(dx, dy, player_id)
+    if on_ladder:
+        new_map = game.changeLevel(player_id,)
+        socketio.emit("change level", new_map, room=room)
+
+
+    elif ret:
         socketio.emit("moove response", {"data": data, "win_a_life": win_a_life, "id": player_id}, room=room )
 
 @socketio.on("is_hit?")

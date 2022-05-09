@@ -8,6 +8,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     var room = document.getElementById("game_id").innerText;
     var player_id = getCookie("player_id");
     var multi = true;
+    var joined = false;
     
     
     /* we test if we have a multiplayer game or not, the following buttons are implemented only for singleplayer mode*/
@@ -62,19 +63,28 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
     /*movement, shoot and join button*/
     document.onkeydown = function(e){
+
         switch(e.keyCode){
             case 37:
-                socket.emit("move", {dx:-1, dy:0, id: socket.id, room:room, player_id:player_id});
-                break;
+                if (joined){
+                    socket.emit("move", {dx:-1, dy:0, id: socket.id, room:room, player_id:player_id});
+                }
+                    break;
             case 38:
-                socket.emit("move", {dx:0, dy:-1, id: socket.id, room:room, player_id:player_id});
+                if (joined){
+                    socket.emit("move", {dx:0, dy:-1, id: socket.id, room:room, player_id:player_id});
+                }
                 break;
             case 39:
-                socket.emit("move", {dx:1, dy:0, id: socket.id, room:room, player_id:player_id});
-                break;
+                if (joined){
+                    socket.emit("move", {dx:1, dy:0, id: socket.id, room:room, player_id:player_id});
+                }
+                    break;
             case 40:
-                socket.emit("move", {dx:0, dy:1, id: socket.id, room:room, player_id:player_id});
-                break;
+                if (joined){
+                    socket.emit("move", {dx:0, dy:1, id: socket.id, room:room, player_id:player_id});
+                }
+                    break;
             case 13:
                 if (player_id == null){
                     console.log("pressed enter: join");
@@ -92,10 +102,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 }
                 break;
             case 32:
-                socket.emit("shoot", {id: socket.id, room:room, player_id:player_id});
-                console.log("pressed space bar: shoot");
+                if (joined){
+                    socket.emit("shoot", {id: socket.id, room:room, player_id:player_id});
+                }
+                    console.log("pressed space bar: shoot");
                 break;
+            
         }
+        
 
 
     };
@@ -103,32 +117,41 @@ window.addEventListener("DOMContentLoaded", (event) => {
     var btn_n = document.getElementById("go_n");
     btn_n.onclick = function(e) {
         console.log("Clicked on button north");
-        socket.emit("move", {dx:0, dy:-1, id: socket.id, room:room, player_id:player_id});
+        if (joined){
+            socket.emit("move", {dx:0, dy:-1, id: socket.id, room:room, player_id:player_id});
+        }
     };
 
     var btn_s = document.getElementById("go_s");
     btn_s.onclick = function(e) {
         console.log("Clicked on button south");
-        socket.emit("move", {dx:0, dy:1, id: socket.id, room:room, player_id:player_id});
+        if (joined){
+            socket.emit("move", {dx:0, dy:1, id: socket.id, room:room, player_id:player_id});
+        }
     };
 
     var btn_w = document.getElementById("go_w");
     btn_w.onclick = function(e) {
         console.log("Clicked on button w");
-        socket.emit("move", {dx:-1, dy:0, id: socket.id, room:room, player_id:player_id});
+        if (joined){
+            socket.emit("move", {dx:-1, dy:0, id: socket.id, room:room, player_id:player_id});
+        }
     };
 
     var btn_e = document.getElementById("go_e");
     btn_e.onclick = function(e) {
         console.log("Clicked on button e");
-        socket.emit("move", {dx:1, dy:0, id: socket.id, room:room, player_id:player_id});
+        if (joined){
+            socket.emit("move", {dx:1, dy:0, id: socket.id, room:room, player_id:player_id});
+        }
     };
 
 
     /*response to server messages*/
     socket.on("you_joined", function(data){
         console.log("you joined");
-        message.innerHTML = "you joined successfully!";
+        joined = true;
+        message.innerText = "you joined successfully! \n use the buttons or the keyboard arrows to moove, space bar to shoot on your ennemies ";
         var lifes = document.getElementById("life_bar");
         lifes.innerHTML="<span>Lifes : </span>";
         for(var i=0; i<data.lifes; i++){
@@ -146,31 +169,83 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     socket.on("new_user", function(received_data){
         console.log("new user");
-        data = received_data.data;
+        var data = received_data.data;
         var cell_id = "cell " + data.i + "-" + data.j;
         var span_to_modif = document.getElementById(cell_id);
         span_to_modif.innerHTML = data.content;
 
     })
+    socket.on("change level", function(map){
+        console.log("received new map");
+        var console_object = document.getElementById("console");
+        for(var i=0; i<map.length; i++){
+            for (var j=0; j<map[0].length; j++){
+                if (map[i][j] == "#") {
+                    console_object.children[i].children[j].innerHTML = "";
+                    console_object.children[i].children[j].classList = ["mapcell"];
+                    console_object.children[i].children[j].classList.add("bloc");
+                }
+                                
+                else if (map[i][j] == "£" ){
+                    console_object.children[i].children[j].innerHTML = `<img src="static\\life.png" sizes=""></img>`;
+                    console_object.children[i].children[j].classList = ["mapcell"] ;
+                    console_object.children[i].children[j].classList.add("accessiblemapcell");
+                }
+                else if (map[i][j] == "@" ){
+                    console_object.children[i].children[j].innerHTML = `<img src="static\\player.png" sizes=""></img>`;
+                    console_object.children[i].children[j].classList = ["mapcell"];
+                    console_object.children[i].children[j].classList.add("accessiblemapcell");
+                    
+                }
+                else if (map[i][j] == "§" ){
+                    console_object.children[i].children[j].innerHTML = `<img src="static\\monster.png" sizes=""></img>`;
+                    console_object.children[i].children[j].classList = ["mapcell"];
+                    console_object.children[i].children[j].classList.add("accessiblemapcell");
+                   
+                }
+                else if (map[i][j] == "_" || map[i][j] == "^" ){
+                    console_object.children[i].children[j].innerHTML = `<img src="static\\ladder.png" sizes=""></img>`;
+                    console_object.children[i].children[j].classList = ["mapcell"];
+                    console_object.children[i].children[j].classList.add("accessiblemapcell");
+                    
+                }
+                else if (map[i][j] == "%") {
+                    console.log("coucou")
+                    console_object.children[i].children[j].innerHTML = `<img src="static\\vaccin.png" sizes=""></img>`;
+                    console_object.children[i].children[j].classList = ["mapcell"];
+                    console_object.children[i].children[j].classList.add("accessiblemapcell");
+                    
+                }
+                else{
+                    console_object.children[i].children[j].innerHTML = ``;
+                    console_object.children[i].children[j].classList = ["mapcell"];
+                    console_object.children[i].children[j].classList.add("accessiblemapcell");
+                }
+                
+                
+                        
+            }
+        }
+    })
 
     socket.on("moove response", function(received_data){
         console.log("received moove response");
-        data = received_data.data;
-        win_a_life = received_data.win_a_life;
-        player_id = received_data.id;
+        var data = received_data.data;
+        var win_a_life = received_data.win_a_life;
+        var id = received_data.id;
         for( var i=0; i<2; i++){
             var cell_id = "cell " + data[i].i + "-" + data[i].j;
             var span_to_modif = document.getElementById(cell_id);
             span_to_modif.innerHTML = data[i].content;
         }
-        if (win_a_life && (socket.id == player_id)){
+        if (win_a_life && (id == player_id)){
             var lifes = document.getElementById("life_bar");
             life_to_add = document.createElement("span");
             life_to_add.classList.add("life") ;
             life_to_add.innerHTML = `<img src="static\\life.png" alt=""></img>`;
             lifes.appendChild(life_to_add);
             message.innerHTML = "congratuations you got an extra life !";
-            clean(500);
+            clean(1000);
         }
         /*because of monsters, after each movement we have to check if the player is not 
         near one (or several) monster and in that case if the monsters hit the player*/
@@ -181,10 +256,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
      we therefore have to ask if the player is_hit again, in case the player stays near a monster. */
     socket.on("hit_by_monsters", async function(data){
         console.log("hit by monsters");
-        n_hits = data.n_hits;
-        monsters_locations = data.monsters_locations;
+        var n_hits = data.n_hits;
+        var monsters_locations = data.monsters_locations;
         message.innerHTML = `${n_hits} monsters hit you`;
-        clean(500);
+        clean(1000);
         var lifes = document.getElementById("life_bar");
         for (var i=0; i<n_hits; i++){
             if (lifes.children.length > 1){
@@ -204,13 +279,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
     socket.on("shoot result", function(response){
         console.log(response);
         message.innerHTML = response;
-        clean(500);
+        clean(1000);
     } )
 
     socket.on("you_got_shot", function(){
         console.log("you_got_shot");
         message.innerHTML = "you_got_shot";
-        clean(500);
+        clean(1000);
         var lifes = document.getElementById("life_bar");
         if (lifes.children.length > 1){
             lifes.removeChild(lifes.lastChild);
@@ -229,6 +304,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
         console.log("game_over");
         socket.emit("disconnected", {id: socket.id, room:room, player_id:player_id})
         socket.disconnect();
-        message.innerHTML = "GAME OVER"
+        message.innerHTML = "GAME OVER";
     } ) 
 });

@@ -12,6 +12,8 @@ from __future__ import print_function
 import random
 from .monster import Monster
 from .reward import Reward
+from .ladder import Ladder
+from .weapon import Weapon
 
 CHARACTER_TILES = {'stone': '#',
 
@@ -20,7 +22,7 @@ CHARACTER_TILES = {'stone': '#',
                     'wall': '#'}
 
 class Generator():
-    def __init__(self, width=64, height=64, max_rooms=15, min_room_xy=5, max_room_xy=10, rooms_overlap=False, random_connections=1,random_spurs=3, n_rewards=5, n_monsters=5, hidden_monsters=True, tiles=CHARACTER_TILES):
+    def __init__(self, width=64, height=64, max_rooms=15, min_room_xy=5, max_room_xy=10, rooms_overlap=False, random_connections=1,random_spurs=3, n_rewards=5, n_monsters=5, hidden_monsters=True, n_weapons=1, multiplayer=False,ground_floor=False, hidden_weapons=False, tiles=CHARACTER_TILES):
         self.width = width
         self.height = height
         self.max_rooms = max_rooms
@@ -37,6 +39,10 @@ class Generator():
         self.room_list = []
         self.corridor_list = []
         self.tiles_level = []
+        self.n_weapons = n_weapons
+        self.multiplayer = multiplayer
+        self.ground_floor = ground_floor
+        self.hidden_weapons = hidden_weapons
     
     def gen_room(self):
         x, y, w, h = 0, 0, 0, 0
@@ -263,7 +269,24 @@ class Generator():
             _ = new_monster.initPos(self.tiles_level)
             monsters.append(new_monster)
         return monsters
-
+    
+    def add_ladder(self):
+        ladders = []
+        if not(self.multiplayer):
+            new_ladder_up = Ladder()
+            new_ladder_up.initPos(self.tiles_level)
+            ladders.append(new_ladder_up)
+            if not(self.ground_floor):
+                new_ladder_down = Ladder(symbol="_")
+                new_ladder_down.initPos(self.tiles_level)
+                ladders.append(new_ladder_down)
+        return ladders
+            
+    def gen_weapons(self):
+        for i in range(self.n_weapons):
+            new_weapon = Weapon(hidden=self.hidden_weapons)
+            new_weapon.initPos(self.tiles_level)
+        
 
 if __name__ == '__main__':
     gen = Generator()
@@ -271,3 +294,5 @@ if __name__ == '__main__':
     gen.gen_tiles_level()
     gen.gen_rewards()
     gen.gen_monsters()
+    gen.add_ladder()
+    gen.gen_weapons()

@@ -44,6 +44,10 @@
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\player.png" sizes=""> </span>
                             {%elif mapdata[i][j] == "§" %}
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\monster_red.png" sizes=""> </span>
+                            {%elif (mapdata[i][j] == "_") or (mapdata[i][j] == "^") %}
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\ladder.png" sizes=""> </span>
+                            {%elif mapdata[i][j] == "%" %}
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\seringue.png" sizes=""> </span>
                             {%else%}
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}" > mapdata[i][j] </span>
                             {%endif%}

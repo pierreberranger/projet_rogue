@@ -10,24 +10,31 @@ class Player(GameCharacter):
 
     
 
-    def move(self, dx, dy, map):
+    def move(self, dx, dy, map, on_object):
         new_x = self._x + dx
         new_y = self._y + dy
         win_a_life = map[new_y][new_x] == "£"
         self._life += win_a_life
-
-                    
-        if map[new_y][new_x] == "." or map[new_y][new_x] == "x" or map[new_y][new_x] == "£":
-            ret =True
-            map[new_y][new_x] = self._symbol
-            map[self._y][self._x] = "."
+        on_ladder = map[new_y][new_x] == "^" or map[new_y][new_x] == "_"
+        print(on_ladder)
+        new_on_object = on_object            
+        if map[new_y][new_x] == "." or map[new_y][new_x] == "x" or map[new_y][new_x] == "£" or map[new_y][new_x] == "^" or map[new_y][new_x] == "_" :
+            ret = True
             data = [{"i": f"{self._y}", "j":f"{self._x}", "content":"."}, {"i": f"{new_y}", "j":f"{new_x}", "content":self._html_code}]
+            map[self._y][self._x] = "."
+            if on_object == "^" or on_object == "_":
+                data = [{"i": f"{self._y}", "j":f"{self._x}", "content": """<img src="static\\ladder.png" sizes=""></img>"""}, {"i": f"{new_y}", "j":f"{new_x}", "content":self._html_code}]
+                map[self._y][self._x] = on_object
+            new_on_object = map[new_y][new_x]
+            map[new_y][new_x] = self._symbol
             self._x = new_x
             self._y = new_y
         else:
+            print(map[new_y][new_x])
             ret = False
             data = []
-        return data, ret, win_a_life
+        print(data, ret, win_a_life, on_ladder, new_on_object)
+        return data, ret, win_a_life, on_ladder, new_on_object
 
     def nearMonsters(self, monsters):
         near_monsters = 0
