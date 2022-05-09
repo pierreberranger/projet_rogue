@@ -53,6 +53,7 @@ A faire:
 
 - bug à patcher: si des cookies sont encore en place au restart du serveur (ceci n'arrive pas si le serveur reste permanent): index error sur start a single player game
 - ajouter un victory message si un joueur arrive a tuer tous les monstres (et adversaires présents en multi)
-- ajouter des échelles et des niveaux (plus on monte plus les monstres sont forts/nombreux)/ enlever le button new_level
+- petit bug monstres?/armes?/game over?
 - problème de couleur du monstre qui ne se voit pas assez
-- ajouter des armes pour augmenter l'accuracy du joueur
+- debug général, brutforce le jeu
+- code plus propre

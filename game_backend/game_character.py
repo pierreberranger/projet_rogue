@@ -1,7 +1,7 @@
 from numpy.random import randint
 
 class GameCharacter:
-    def __init__(self, symbol="@", html_code="""<img src="static\player.png" alt=""></img>""", initial_life=5, proba_to_hit=0.5, hidden=False):
+    def __init__(self, symbol="@", html_code="""<img src="static\player.png" alt=""></img>""", initial_life=5, proba_to_hit=0.1, hidden=False):
         self._symbol = symbol
         self._x = None
         self._y = None
