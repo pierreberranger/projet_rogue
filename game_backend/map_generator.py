@@ -262,10 +262,10 @@ class Generator():
             new_reward = Reward()
             new_reward.initPos(self.tiles_level)
 
-    def gen_monsters(self):
+    def gen_monsters(self, level):
         monsters = []
         for i in range(self.n_monsters):
-            new_monster = Monster(hidden=self.hidden_monsters)
+            new_monster = Monster(hidden=self.hidden_monsters, level=level)
             _ = new_monster.initPos(self.tiles_level)
             monsters.append(new_monster)
         return monsters
@@ -283,9 +283,12 @@ class Generator():
         return ladders
             
     def gen_weapons(self):
+        weapons = []
         for i in range(self.n_weapons):
             new_weapon = Weapon(hidden=self.hidden_weapons)
             new_weapon.initPos(self.tiles_level)
+            weapons.append(new_weapon)
+        return weapons
         
 
 if __name__ == '__main__':

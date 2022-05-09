@@ -10,9 +10,9 @@ class Level:
         self._generator.gen_tiles_level()
         self._generator.gen_rewards()
         self._ladders = self._generator.add_ladder()
-        self._generator.gen_weapons()
+        self._weapons = self._generator.gen_weapons()
         self._map = self._generator.tiles_level
-        self._monsters = self._generator.gen_monsters()
+        self._monsters = self._generator.gen_monsters(level)
         self._time_between_hits = time_between_hits
         self._players = dict()
         self._multiplayer = multiplayer
@@ -41,8 +41,8 @@ class Level:
         data = player.initPos(self._map, pos)
     
     def move(self, dx, dy, player):
-        data, ret, win_a_life, on_ladder, self._on_object = player.move(dx, dy, self._map, self._on_object)
-        return data, ret, win_a_life, on_ladder
+        data, ret, win_a_life, on_ladder, self._on_object, new_weapon = player.move(dx, dy, self._map, self._on_object, self._weapons)
+        return data, ret, win_a_life, on_ladder, new_weapon
     def is_hit(self, player):
         n_damage, near_monsters, monsters_locations, data = player.nearMonsters(self._monsters)
         is_dead = player.changeLife(-n_damage)

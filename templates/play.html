@@ -15,7 +15,7 @@
                         <span>To invite your friends to this game, give them the game_id</span>
                         {%else%}
                         <form action="/play" method="get">
-                        <button id="new_level" class="button" type="submit" >new_level</button>
+                        <button id="new_level" class="button" type="submit" >new_game</button>
                         <input type="hidden"  name="multi" value="0" />
                         <button id="save_game" class="button" type="button" >come back later</button>
                         {%endif%}
@@ -47,7 +47,7 @@
                             {%elif (mapdata[i][j] == "_") or (mapdata[i][j] == "^") %}
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\ladder.png" sizes=""> </span>
                             {%elif mapdata[i][j] == "%" %}
-                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\seringue.png" sizes=""> </span>
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\vaccin.png" sizes=""> </span>
                             {%else%}
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}" > mapdata[i][j] </span>
                             {%endif%}

@@ -94,14 +94,14 @@ def on_move_msg(json, methods=["GET", "POST"]):
     dx = json['dx']
     dy = json["dy"]
 
-    data, ret, win_a_life, on_ladder = game.move(dx, dy, player_id)
+    data, ret, win_a_life, on_ladder, new_weapon = game.move(dx, dy, player_id)
     if on_ladder:
         new_map = game.changeLevel(player_id,)
         socketio.emit("change level", new_map, room=room)
 
 
     elif ret:
-        socketio.emit("moove response", {"data": data, "win_a_life": win_a_life, "id": player_id}, room=room )
+        socketio.emit("moove response", {"data": data, "win_a_life": win_a_life, "new_weapon": new_weapon, "id": player_id}, room=room )
 
 @socketio.on("is_hit?")
 def on_is_hit_msg(json):

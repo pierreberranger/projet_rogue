@@ -233,6 +233,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         var data = received_data.data;
         var win_a_life = received_data.win_a_life;
         var id = received_data.id;
+        var new_weapon = received_data.new_weapon;
         for( var i=0; i<2; i++){
             var cell_id = "cell " + data[i].i + "-" + data[i].j;
             var span_to_modif = document.getElementById(cell_id);
@@ -245,6 +246,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
             life_to_add.innerHTML = `<img src="static\\life.png" alt=""></img>`;
             lifes.appendChild(life_to_add);
             message.innerHTML = "congratuations you got an extra life !";
+            clean(1000);
+        }
+        if (new_weapon && (id == player_id)){
+            message.innerHTML = "congratuations you found a new weapon, you gained in accuracy!";
             clean(1000);
         }
         /*because of monsters, after each movement we have to check if the player is not 
