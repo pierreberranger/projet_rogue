@@ -12,7 +12,7 @@ class Player(GameCharacter):
     
 
     def move(self, dx, dy, map, on_object, weapons):
-        print(weapons)
+        print("weapons", weapons)
         new_x = self._x + dx
         new_y = self._y + dy
         win_a_life = map[new_y][new_x] == "£"
@@ -31,6 +31,7 @@ class Player(GameCharacter):
             else:
                 self._proba_to_hit = 1
                 self._life +=1
+                print("new weapon : life increase")
             print(f"weapon found: accuracy increase: {weapon_found.getAccuracyIncrease()}, proba to hit your opponents: {self._proba_to_hit}")
         if map[new_y][new_x] == "." or map[new_y][new_x] == "x" or map[new_y][new_x] == "£" or map[new_y][new_x] == "^" or map[new_y][new_x] == "_"  or map[new_y][new_x] == "%":
             ret = True

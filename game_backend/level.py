@@ -45,6 +45,8 @@ class Level:
         return data, ret, win_a_life, on_ladder, new_weapon
     def is_hit(self, player):
         n_damage, near_monsters, monsters_locations, data = player.nearMonsters(self._monsters)
+        print("n_damge", n_damage
+        )
         is_dead = player.changeLife(-n_damage)
         if is_dead:
             x, y = player.getPos()

@@ -54,7 +54,9 @@ class GameCharacter:
         return self._life
     
     def changeLife(self, new_life):
+        print("new-life", new_life)
         self._life += new_life
+        print(self._life)
         return self._life <= 0
     
     def getSymbol(self):
