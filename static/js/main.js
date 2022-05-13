@@ -34,9 +34,12 @@ window.addEventListener("DOMContentLoaded", (event) => {
     /* some usefull functions*/
 
     /*clean the message box after a few times*/
-    async function clean(ms){
+    async function clean(ms, message){
         await new Promise(resolve => setTimeout(resolve, ms));
-        message.innerHTML = "";
+        if (message.innerHTML != "GAME OVER"){
+            message.innerHTML = "";
+            console.log(message);
+        }
 
     }
 
@@ -151,9 +154,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
     socket.on("you_joined", function(data){
         console.log("you joined");
         joined = true;
-        message.innerText = "you joined successfully! \n use the buttons or the keyboard arrows to moove, space bar to shoot on your ennemies ";
+        message.innerText = "you joined successfully! \n use the buttons or the keyboard arrows to move, space bar to shoot your ennemies ";
         var lifes = document.getElementById("life_bar");
-        lifes.innerHTML="<span>Lifes : </span>";
+        lifes.innerHTML="<span>Lives : </span>";
         for(var i=0; i<data.lifes; i++){
             life_to_add = document.createElement("span");
             life_to_add.classList.add("life");
@@ -246,11 +249,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
             life_to_add.innerHTML = `<img src="static\\life.png" alt=""></img>`;
             lifes.appendChild(life_to_add);
             message.innerHTML = "congratuations you got an extra life !";
-            clean(1000);
+            clean(1000, "clean life message");
         }
         if (new_weapon && (id == player_id)){
-            message.innerHTML = "congratuations you found a new weapon, you gained in accuracy!";
-            clean(1000);
+            message.innerHTML = "congratulations you found a new weapon, your accuracy increased!";
+            clean(1000, "clean new weapon message");
         }
         /*because of monsters, after each movement we have to check if the player is not 
         near one (or several) monster and in that case if the monsters hit the player*/
@@ -263,8 +266,16 @@ window.addEventListener("DOMContentLoaded", (event) => {
         console.log("hit by monsters");
         var n_hits = data.n_hits;
         var monsters_locations = data.monsters_locations;
-        message.innerHTML = `${n_hits} monsters hit you`;
-        clean(1000);
+        if (n_hits == 0){
+            message.innerHTML = "a monster tried to hit you";
+            clean(1000, "clean try to hit you message");
+
+        }
+        else{
+            message.innerHTML = `${n_hits} monsters hit you`;  
+            clean(1000, "clean hit by monster message");
+        }
+        
         var lifes = document.getElementById("life_bar");
         for (var i=0; i<n_hits; i++){
             if (lifes.children.length > 1){
@@ -284,13 +295,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
     socket.on("shoot result", function(response){
         console.log(response);
         message.innerHTML = response;
-        clean(1000);
+        clean(1000, "clean shoot result message");
     } )
 
     socket.on("you_got_shot", function(){
         console.log("you_got_shot");
         message.innerHTML = "you_got_shot";
-        clean(1000);
+        clean(1000, "clean got shot message");
         var lifes = document.getElementById("life_bar");
         if (lifes.children.length > 1){
             lifes.removeChild(lifes.lastChild);
@@ -299,7 +310,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     socket.on("a player died", function(data){
         console.log("a new player died");
         message.innerHTML = "a new player died";
-        clean(500);
+        clean(1000, "clean died message");
         var cell_id = "cell " + data.i + "-" + data.j;
         var span_to_modif = document.getElementById(cell_id);
         span_to_modif.innerHTML = data.content;

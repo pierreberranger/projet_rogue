@@ -1,12 +1,14 @@
 from numpy.random import randint
 
 class GameCharacter:
-    def __init__(self, symbol="@", html_code="""<img src="static\player.png" alt=""></img>""", initial_life=5, proba_to_hit=0.1, hidden=False):
+    def __init__(self, symbol="@", html_code="""<img src="static\player.png" alt=""></img>""", initial_life=5, proba_to_hit=0.2, hidden=False, in_multiplayer_game=False):
         self._symbol = symbol
         self._x = None
         self._y = None
         self._life = initial_life
         self._proba_to_hit = proba_to_hit
+        if in_multiplayer_game:
+            self._proba_to_hit = 0.5
         self._hidden = hidden
         self._html_code = html_code
     

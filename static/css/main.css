@@ -1,9 +1,10 @@
 body{
-    background-color: #E6AF2E;
-    color:#f5de0e;
+    background: radial-gradient(#f68a07, 60% ,#e0b44c);
+    color:#f5cf0e;
 }
 .bloc{
     background-color:  #191716;
+    margin: 0px;
 }
 .game_id{
     color: #f63707;
@@ -31,7 +32,7 @@ img{
     margin: 0;
 }
 .accessiblemapcell{
-    background-color: #f68a07;
+    
     
     
 }
@@ -57,6 +58,9 @@ img{
     align-items: center;
 }
 #console{
+    padding: 0px;
+    border: solid 5px #191716;
+    border-radius: 5px;
     counter-reset: console;
     height: 100%;
     width: 80%;
@@ -117,8 +121,8 @@ img{
     text-align: center;
 }
 #player_infos{
-    height:12.5%;
-    margin-top: 1.125%;
+    height:11.5%;
+    margin-top: 2.125%;
     margin-bottom: 1.125%;
     width:100%;
     display: flex;

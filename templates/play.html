@@ -43,11 +43,11 @@
                             {%elif mapdata[i][j] == "@" %}
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\player.png" sizes=""> </span>
                             {%elif mapdata[i][j] == "§" %}
-                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\monster_red.png" sizes=""> </span>
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\monster3.png" sizes=""> </span>
                             {%elif (mapdata[i][j] == "_") or (mapdata[i][j] == "^") %}
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\ladder.png" sizes=""> </span>
                             {%elif mapdata[i][j] == "%" %}
-                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\vaccin.png" sizes=""> </span>
+                                <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}"> <img src="static\vaccin4.png" sizes=""> </span>
                             {%else%}
                                 <span class="mapcell accessiblemapcell" id="{{ 'cell {}-{}'.format(i,j) }}" > mapdata[i][j] </span>
                             {%endif%}
@@ -59,7 +59,7 @@
             </div>
             <div id="player_infos">
                 <div id="life_bar">
-                    <span>Lifes : </span>
+                    <span>Lives : </span>
                     
                     
                 </div>

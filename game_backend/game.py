@@ -14,7 +14,8 @@ class Game:
     def removePlayer(self, player_id):
         del self._players[player_id]
     def addPlayer(self, player_id):
-        new_player = Player()
+        
+        new_player = Player(in_multiplayer_game=self._is_multiplayer)
         data = new_player.initPos(self._levels[self._current_level].getMap())
         self._players[player_id] = new_player
         print(f"player {player_id} has been added succesfully")

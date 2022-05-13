@@ -262,8 +262,11 @@ class Generator():
             new_reward = Reward()
             new_reward.initPos(self.tiles_level)
 
-    def gen_monsters(self, level):
+    def gen_monsters(self, _level):
         monsters = []
+        level = _level
+        if self.multiplayer :
+            level = 7
         for i in range(self.n_monsters):
             new_monster = Monster(hidden=self.hidden_monsters, level=level)
             _ = new_monster.initPos(self.tiles_level)
