@@ -22,7 +22,11 @@ CHARACTER_TILES = {'stone': '#',
                     'wall': '#'}
 
 class Generator():
-    def __init__(self, width=64, height=64, max_rooms=15, min_room_xy=5, max_room_xy=10, rooms_overlap=False, random_connections=1,random_spurs=3, n_rewards=5, n_monsters=5, hidden_monsters=True, n_weapons=1, multiplayer=False,ground_floor=False, hidden_weapons=False, tiles=CHARACTER_TILES):
+    def __init__(self, width=64, height=64, max_rooms=15, min_room_xy=5, max_room_xy=10, 
+                rooms_overlap=False, random_connections=1,random_spurs=3, n_rewards=2, 
+                n_monsters=5, hidden_monsters=True, n_weapons=1, multiplayer=False, 
+                ground_floor=False, hidden_weapons=False, tiles=CHARACTER_TILES):
+                
         self.width = width
         self.height = height
         self.max_rooms = max_rooms
