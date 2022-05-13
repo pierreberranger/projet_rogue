@@ -137,12 +137,12 @@ def on_shoot_msg(json):
     hit, hit_player, is_dead, data = game.hitOpponent(player_id)
     if hit:
         socketio.emit("shoot result", "you got it", to=player_index[player_id])
-        socketio.emit("you_got_shot",  to=hit_player)
+        socketio.emit("you_got_shot",  to=player_index[hit_player])
         if is_dead and isinstance(hit_player, int):
             socketio.emit("a player died", data)
         elif is_dead:
             print(f"GAME OVER for the player {hit_player}")
-            socketio.emit("game_over", to=hit_player)
+            socketio.emit("game_over", to=player_index[hit_player])
             socketio.emit("a player died", data)
             game.removePlayer(hit_player)
     else:
@@ -163,6 +163,6 @@ def check_id(player_id, socket_id):
 
 
 if __name__=="__main__":
-    socketio.run(app, host='0.0.0.0', port=5000)
+    socketio.run(app, host='192.168.1.110', port=5000)
 
 
