@@ -163,6 +163,6 @@ def check_id(player_id, socket_id):
 
 
 if __name__=="__main__":
-    socketio.run(app, port=5001)
+    socketio.run(app, host='0.0.0.0', port=5000)
 
 

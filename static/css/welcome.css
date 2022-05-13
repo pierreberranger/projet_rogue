@@ -17,7 +17,7 @@ body{
     align-items: center;
     justify-content:center;
     width:45%;
-    height: 80%;
+    height: 60%;
 }
 #flexbox{
     display: flex;
@@ -41,13 +41,19 @@ body{
     flex-direction: column;
 }
 #flexbox2{
+    height: 40%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    height: auto;
     
 }
 img{
     width: 25%;
     height:auto;
+}
+img.vaccin{
+    width: 20%;
+    height: auto;
 }
