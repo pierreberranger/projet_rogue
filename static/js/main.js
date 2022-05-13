@@ -201,7 +201,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     
                 }
                 else if (map[i][j] == "§" ){
-                    console_object.children[i].children[j].innerHTML = `<img src="static\\monster.png" sizes=""></img>`;
+                    console_object.children[i].children[j].innerHTML = `<img src="static\\monster4.png" sizes=""></img>`;
                     console_object.children[i].children[j].classList = ["mapcell"];
                     console_object.children[i].children[j].classList.add("accessiblemapcell");
                    
