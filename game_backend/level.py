@@ -39,14 +39,17 @@ class Level:
 
     def addPlayer(self, player, pos):
         data = player.initPos(self._map, pos)
+        return data
+    
+    def removeMonster(self, monster_id):
+        del self._monsters[monster_id]
     
     def move(self, dx, dy, player):
         data, ret, win_a_life, on_ladder, self._on_object, new_weapon = player.move(dx, dy, self._map, self._on_object, self._weapons)
         return data, ret, win_a_life, on_ladder, new_weapon
+    
     def is_hit(self, player):
         n_damage, near_monsters, monsters_locations, data = player.nearMonsters(self._monsters)
-        print("n_damge", n_damage
-        )
         is_dead = player.changeLife(-n_damage)
         if is_dead:
             x, y = player.getPos()
@@ -62,13 +65,14 @@ class Level:
             increase = -1
         elif self._on_object == "^":
             increase = 1
-        print(increase)
         return increase
+    
     def getLadderPos(self, increase):
         if increase == 1:
             return self._ladders[-1].getPos()
         else:
             return tuple(self._ladders[0].getPos())
+    
     def resetLadders(self):
         for ladder in self._ladders :
             x, y = ladder.getPos()

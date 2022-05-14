@@ -8,16 +8,17 @@
         <div class="flexbox1">
             <div id="title"> <b> Rogue Flask </b></div>
             <div class="flexbox2">
-                <div id="buttons">
+                <div id="left_pad">
                     <span class="game_id">Game ID:</span><span class="game_id" id="game_id">  {{game_id}}</span>
                     <div id="new_level_or_invite_friends_message">
                         {%if multi%}
                         <span>To invite your friends to this game, give them the game_id</span>
                         {%else%}
-                        <form action="/play" method="get">
-                        <button id="new_level" class="button" type="submit" >new_game</button>
-                        <input type="hidden"  name="multi" value="0" />
-                        <button id="save_game" class="button" type="button" >come back later</button>
+                        <form id="buttons" action="/" method="get">
+                            <button id="home" class="button" type="submit" >home</button>
+                            <button id="discard" class="button" type="submit" >discard the game and go home</button>
+                            <button id="save_game" class="button" type="button" >come back later</button>
+                        </form>
                         {%endif%}
                     </div>
                     <div class="thekeypad">

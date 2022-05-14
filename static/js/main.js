@@ -18,9 +18,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
         save_game_button.onclick = function() {
             console.log("pressed save game button");
             setCookie("game_id", `${room}`);
+            socket.emit("leave", {id: socket.id, room:room, player_id:player_id});
         }
     }
-    var new_level_button = document.getElementById("new_level")
+    var new_level_button = document.getElementById("discard")
     if (new_level_button !=null){
         new_level_button.onclick = function() {
             console.log("pressed new level button");
@@ -318,7 +319,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     } )
     socket.on("game_over", function(){
         console.log("game_over");
-        socket.emit("disconnected", {id: socket.id, room:room, player_id:player_id})
+        socket.emit("leave", {id: socket.id, room:room, player_id:player_id})
         socket.disconnect();
         message.innerHTML = "GAME OVER";
     } ) 

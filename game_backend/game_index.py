@@ -1,7 +1,5 @@
-from ast import If
 from collections import UserDict
-from xml.dom import UserDataHandler
-from .game import Game
+
 
 
 GameIndex = UserDict

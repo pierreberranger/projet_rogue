@@ -2,6 +2,7 @@ from numpy.random import randint
 
 
 class Reward:
+    
     def __init__(self, symbol="£", hidden=False):
         self._symbol = symbol
         self._x = None

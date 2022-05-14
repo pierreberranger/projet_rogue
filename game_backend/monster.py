@@ -5,6 +5,7 @@ monster_level = [(1, 0), (1, 0.3), (2, 0.3), (2, 0.4), (2, 0.5), (3, 0.5), (3, 0
                 (7, 0.7), (7, 0.8), (8, 0.7), (8, 0.8), (8, 0.9), (9, 0.8), (9, 0.9)]
 
 class Monster(GameCharacter):
+    
     def __init__(self, _symbol="§", html_code="""<img src="static\monster3.png" alt=""></img>""", level=0, hidden=False):
         if level > len(monster_level) - 1:
             life, proba_to_hit =monster_level[-1]
