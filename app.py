@@ -176,6 +176,6 @@ def check_id(player_id, socket_id): #just in case the socket id changes (sometim
 
 
 if __name__=="__main__":
-    socketio.run(app, host='192.168.1.110', port=5000)
+    socketio.run(app, host='127.0.0.1', port=5000)
 
 
