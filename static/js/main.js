@@ -215,7 +215,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 }
                 else if (map[i][j] == "%") {
                     console.log("coucou")
-                    console_object.children[i].children[j].innerHTML = `<img src="static\\vaccin.png" sizes=""></img>`;
+                    console_object.children[i].children[j].innerHTML = `<img src="static\\ambulance.png" sizes=""></img>`;
                     console_object.children[i].children[j].classList = ["mapcell"];
                     console_object.children[i].children[j].classList.add("accessiblemapcell");
                     
