@@ -259,6 +259,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
         /*because of monsters, after each movement we have to check if the player is not 
         near one (or several) monster and in that case if the monsters hit the player*/
         socket.emit("is_hit?", { id: socket.id, room: room, player_id: player_id });
+
+        socket.emit("move_monster", { id: socket.id, room: room, player_id: player_id });
+
+
     });
 
     /* here is the response to the is_hit message sent to the server, and means that the player has been hit,
@@ -331,6 +335,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             var span_to_modif = document.getElementById(cell_id);
             span_to_modif.textContent = data[i].content;
             span_to_modif.innerHTML = data[i].content;
+            await new Promise(resolve => setTimeout(resolve, 500));
         }
     })
 });

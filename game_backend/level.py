@@ -31,6 +31,9 @@ class Level:
     def getMap(self):
         return self._map
 
+    def getMonster(self):
+        return self._monsters
+
     def getPlayers(self):
         return self._players
     

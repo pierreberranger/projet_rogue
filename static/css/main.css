@@ -1,15 +1,18 @@
-body{
-    background: radial-gradient(#f68a07, 60% ,#e0b44c);
-    color:#f5cf0e;
+body {
+    background: radial-gradient(#f68a07, 60%, #e0b44c);
+    color: #f5cf0e;
 }
-.bloc{
-    background-color:  #191716;
+
+.bloc {
+    background-color: #191716;
     margin: 0px;
 }
-.game_id{
+
+.game_id {
     color: #f63707;
 }
-#title{
+
+#title {
     height: 7.5%;
     margin-bottom: 1.125%;
     margin-top: 1.125%;
@@ -18,140 +21,148 @@ body{
     border-radius: 4px;
     background-color: #f68a07;
 }
-.flexbox1{
+
+.flexbox1 {
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content:space-between ;
+    justify-content: space-between;
 }
-img{
+
+img {
     display: block;
     height: 100%;
-    width:100%;
+    width: 100%;
     margin: 0;
 }
-.accessiblemapcell{
-    
-    
-    
-}
-.button{
+
+.accessiblemapcell {}
+
+.button {
     background-color: #f68a07;
     border-radius: 3px;
 }
-.mapcell{
+
+.mapcell {
     display: inline-block;
     text-align: center;
     justify-content: center;
-    width:200px;
-    height:100%;
-    }
+    width: 200px;
+    height: 100%;
+}
 
-.flexbox2{
+.flexbox2 {
     width: 100%;
-    height:75%;
+    height: 75%;
     display: flex;
     border-radius: 3px;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
 }
-#console{
+
+#console {
     padding: 0px;
     border: solid 5px #191716;
     border-radius: 5px;
     counter-reset: console;
     height: 100%;
     width: 80%;
-    margin-right:5%;
-    justify-content:center;
+    margin-right: 5%;
+    justify-content: center;
     display: flex;
     align-items: center;
     flex-direction: column;
-    
+
 }
-.line{
+
+.line {
     counter-increment: console;
     width: 100%;
-    height:auto;
+    height: auto;
     counter-reset: colum;
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
-    font-size:0 ;
+    font-size: 0;
     margin: 0px;
-    flex-grow:1;
-    
-    
+    flex-grow: 1;
+
+
 }
-#left_pad{
+
+#left_pad {
     color: #f63707;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    width:15%;
-    height:100%;
+    width: 15%;
+    height: 100%;
 }
 
-.thekeypad{
+.thekeypad {
     border-radius: 5px;
     background-color: #f68a07;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 35px;
     grid-gap: 5px;
-    max-width:120px;
+    max-width: 120px;
     padding: 0.4em;
 }
 
-.keypad_btn{
+.keypad_btn {
     background-color: black;
     opacity: 0.75;
     color: #E6AF2E;
 }
 
-#message{
+#message {
     background-color: #f68a07;
     border-radius: 5px;
-    height:100%;;
+    height: 100%;
+    ;
     padding: 0.5em;
     min-width: 20%;
     text-align: center;
 }
-#player_infos{
-    height:11.5%;
+
+#player_infos {
+    height: 11.5%;
     margin-top: 2.125%;
     margin-bottom: 1.125%;
-    width:100%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
 }
-#life_bar{
+
+#life_bar {
     height: 100%;
     color: #f63707;
 }
 
-.life{
+.life {
     display: inline-block;
     height: 1em;
     width: 1em;
     margin: 0.1em;
-    
+
 }
 
 
-#buttons{
+#buttons {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-items: space-evenly;
 
 }
-.button{
+
+.button {
     margin: 1em;
 }
 

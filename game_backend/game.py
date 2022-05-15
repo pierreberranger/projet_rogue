@@ -70,10 +70,10 @@ class Game:
         return self._levels[self._current_level].hitOpponent(self._players[player_id], self._players)
 
     def monster_move(self):
-        self._list_monster = self._levels[-1]._monsters
+        monsters = self._levels[self_current_level]._monsters
         result = []
-        for monster in self._list_monster:
-            data, ret = monster.move(self._levels[-1]._map)
+        for monster in monsters:
+            data, ret = monster.move(self._levels.getMonster())
             if ret:
                 result.append(data)
         return result

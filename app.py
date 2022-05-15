@@ -91,35 +91,36 @@ def save_msg(json):
 
 @socketio.on("move")
 def on_move_msg(json, methods=["GET", "POST"]):
-    def action_joueur():
-        # load data
-        room = json["room"]
-        socket_id = json["id"]
-        player_id = json["player_id"]
-        check_id(player_id, socket_id)
-        game = game_index[room]
-        print(f"received move ws message from {player_id}")
-        dx = json['dx']
-        dy = json["dy"]
+    # load data
+    room = json["room"]
+    socket_id = json["id"]
+    player_id = json["player_id"]
+    check_id(player_id, socket_id)
+    game = game_index[room]
+    print(f"received move ws message from {player_id}")
+    dx = json['dx']
+    dy = json["dy"]
 
-        data, ret, win_a_life, on_ladder, new_weapon = game.move(
-            dx, dy, player_id)
-        if on_ladder:
-            new_map = game.changeLevel(player_id,)
-            socketio.emit("change level", new_map, room=room)
+    data, ret, win_a_life, on_ladder, new_weapon = game.move(
+        dx, dy, player_id)
+    if on_ladder:
+        new_map = game.changeLevel(player_id,)
+        socketio.emit("change level", new_map, room=room)
 
-        elif ret:
-            socketio.emit("moove response", {
-                "data": data, "win_a_life": win_a_life, "new_weapon": new_weapon, "id": player_id}, room=room)
+    elif ret:
+        socketio.emit("moove response", {
+            "data": data, "win_a_life": win_a_life, "new_weapon": new_weapon, "id": player_id}, room=room)
 
-    def action_monstre():
-        print('monstre')
-        i = True
-        while i == True:
-            result_monster = game.monster_move()
-            for data_monster in result_monster:
-                socketio.emit("response_monster", data_monster)
-            time.sleep(3)
+
+@socketio.on("move_monster")
+def on_move_msg(json, methods=["GET", "POST"]):
+    print('monstre')
+    i = True
+    while i == True:
+        result_monster = game.monster_move()
+        for data_monster in result_monster:
+            socketio.emit("response_monster", data_monster)
+        time.sleep(3)
     t1 = threading.Thread(target=action_joueur)
 
     global deja_un_thread_monstre
