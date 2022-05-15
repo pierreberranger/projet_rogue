@@ -16,17 +16,18 @@ from .weapon import Weapon
 
 CHARACTER_TILES = {'stone': '#',
 
-                    'floor': '.',
+                   'floor': '.',
 
-                    'wall': '#'}
+                   'wall': '#'}
+
 
 class Generator():
-    def __init__(self, width=64, height=64, max_rooms=15, min_room_xy=5, max_room_xy=10, 
-                rooms_overlap=False, random_connections=1,random_spurs=3, n_rewards=2, 
-                n_monsters=5, hidden_monsters=True, n_weapons=1, multiplayer=False, 
-                ground_floor=False, hidden_weapons=False, tiles=CHARACTER_TILES
-            ):
-                
+    def __init__(self, width=64, height=64, max_rooms=15, min_room_xy=5, max_room_xy=10,
+                 rooms_overlap=False, random_connections=1, random_spurs=3, n_rewards=2,
+                 n_monsters=5, hidden_monsters=True, n_weapons=1, multiplayer=False,
+                 ground_floor=False, hidden_weapons=False, tiles=CHARACTER_TILES
+                 ):
+
         self.width = width
         self.height = height
         self.max_rooms = max_rooms
@@ -47,7 +48,7 @@ class Generator():
         self.multiplayer = multiplayer
         self.ground_floor = ground_floor
         self.hidden_weapons = hidden_weapons
-    
+
     def gen_room(self):
         x, y, w, h = 0, 0, 0, 0
         w = random.randint(self.min_room_xy, self.max_room_xy)
@@ -69,7 +70,7 @@ class Generator():
             if (x < (current_room[0] + current_room[2]) and
                 current_room[0] < (x + w) and
                 y < (current_room[1] + current_room[3]) and
-                current_room[1] < (y + h)):
+                    current_room[1] < (y + h)):
                 return True
         return False
 
@@ -83,7 +84,7 @@ class Generator():
             join = None
             if join_type == 'either' and set([0, 1]).intersection(set([x1, x2, y1, y2])):
                 join = 'bottom'
-            elif join_type == 'either' and set([self.width - 1,self.width - 2]).intersection(set([x1, x2])) or set([self.height - 1, self.height - 2]).intersection(set([y1, y2])):
+            elif join_type == 'either' and set([self.width - 1, self.width - 2]).intersection(set([x1, x2])) or set([self.height - 1, self.height - 2]).intersection(set([y1, y2])):
                 join = 'top'
             elif join_type == 'either':
                 join = random.choice(['top', 'bottom'])
@@ -149,14 +150,16 @@ class Generator():
                     jy1 = random.randint(y1, y1_2)
                     jx2 = random.randint(x2, x2_2)
                     jy2 = y2 - 1
-                    corridors = self.corridor_between_points(jx1, jy1, jx2, jy2, 'bottom')
+                    corridors = self.corridor_between_points(
+                        jx1, jy1, jx2, jy2, 'bottom')
                     self.corridor_list.append(corridors)
                 else:
                     jx1 = random.randint(x1, x1_2)
                     jy1 = y1 - 1
                     jx2 = x2 - 1
                     jy2 = random.randint(y2, y2_2)
-                    corridors = self.corridor_between_points(jx1, jy1, jx2, jy2, 'top')
+                    corridors = self.corridor_between_points(
+                        jx1, jy1, jx2, jy2, 'top')
                     self.corridor_list.append(corridors)
             elif join == 'bottom':
                 if y2 > y1:
@@ -164,14 +167,16 @@ class Generator():
                     jy1 = y1_2 + 1
                     jx2 = x2 - 1
                     jy2 = random.randint(y2, y2_2)
-                    corridors = self.corridor_between_points(jx1, jy1, jx2, jy2, 'top')
+                    corridors = self.corridor_between_points(
+                        jx1, jy1, jx2, jy2, 'top')
                     self.corridor_list.append(corridors)
                 else:
                     jx1 = x1_2 + 1
                     jy1 = random.randint(y1, y1_2)
                     jx2 = random.randint(x2, x2_2)
                     jy2 = y2_2 + 1
-                    corridors = self.corridor_between_points(jx1, jy1, jx2, jy2, 'bottom')
+                    corridors = self.corridor_between_points(
+                        jx1, jy1, jx2, jy2, 'bottom')
                     self.corridor_list.append(corridors)
 
     def gen_level(self):
@@ -202,7 +207,8 @@ class Generator():
             self.join_rooms(room_1, room_2)
         # do the spurs
         for a in range(self.random_spurs):
-            room_1 = [random.randint(2, self.width - 2), random.randint(2, self.height - 2), 1, 1]
+            room_1 = [random.randint(2, self.width - 2),
+                      random.randint(2, self.height - 2), 1, 1]
             room_2 = self.room_list[random.randint(0, len(self.room_list) - 1)]
             self.join_rooms(room_1, room_2)
         # fill the map
@@ -217,12 +223,14 @@ class Generator():
             x2, y2 = corridor[1]
             for width in range(abs(x1 - x2) + 1):
                 for height in range(abs(y1 - y2) + 1):
-                    self.level[min(y1, y2) + height][min(x1, x2) + width] = 'floor'
+                    self.level[min(y1, y2) + height][min(x1,
+                                                         x2) + width] = 'floor'
             if len(corridor) == 3:
                 x3, y3 = corridor[2]
                 for width in range(abs(x2 - x3) + 1):
                     for height in range(abs(y2 - y3) + 1):
-                        self.level[min(y2, y3) + height][min(x2, x3) + width] = 'floor'
+                        self.level[min(y2, y3) + height][min(x2,
+                                                             x3) + width] = 'floor'
 
         # paint the walls
         for row in range(1, self.height - 1):
@@ -260,7 +268,6 @@ class Generator():
         #print('\nCorridor List: ', self.corridor_list)
         #[print(row) for row in self.tiles_level]
 
-
     def gen_rewards(self):
         for i in range(self.nb_rewards):
             new_reward = Reward()
@@ -269,14 +276,14 @@ class Generator():
     def gen_monsters(self, _level):
         monsters = []
         level = _level
-        if self.multiplayer :
+        if self.multiplayer:
             level = 7
         for i in range(self.n_monsters):
             new_monster = Monster(hidden=self.hidden_monsters, level=level)
             _ = new_monster.initPos(self.tiles_level)
             monsters.append(new_monster)
         return monsters
-    
+
     def add_ladder(self):
         ladders = []
         if not(self.multiplayer):
@@ -288,7 +295,7 @@ class Generator():
                 new_ladder_down.initPos(self.tiles_level)
                 ladders.append(new_ladder_down)
         return ladders
-            
+
     def gen_weapons(self):
         weapons = []
         for i in range(self.n_weapons):
@@ -296,7 +303,7 @@ class Generator():
             new_weapon.initPos(self.tiles_level)
             weapons.append(new_weapon)
         return weapons
-        
+
 
 if __name__ == '__main__':
     gen = Generator()
