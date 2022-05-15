@@ -5,7 +5,8 @@ from game_backend import player
 
 class Level:
     def __init__(self, width=96, height=32, time_between_hits=1, hidden_monsters=True, multiplayer=False, level=0):
-        self._generator = Generator(width=width, height=height, hidden_monsters=hidden_monsters, ground_floor=(level==0), multiplayer=multiplayer)
+        self._generator = Generator(width=width, height=height, hidden_monsters=hidden_monsters, 
+                        ground_floor=(level==0), multiplayer=multiplayer, n_weapons=multiplayer+1)
         self._generator.gen_level()
         self._generator.gen_tiles_level()
         self._generator.gen_rewards()
