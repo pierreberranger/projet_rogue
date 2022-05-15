@@ -19,3 +19,6 @@ La sauvegarde de la partie en mode solo se fait directement sur la page de jeu. 
 ## Contrôles
 
 Pour ce qui est des contrôles : tous les joueurs ont les mêmes : les flèches et le pad du clavier servent à se déplacer, la barre espace à tirer, la touche enter à rejoindre la partie.
+
+
+**Remarque:** Un membre du groupe (Pierre Berranger) n'a pas réussi à faire partie du git team-convolution (problèmes techniques), nous avons donc créé un autre git sur lequel nous avons travaillé : https://github.com/pierreberranger/projet_rogue vous pouvez vous y rendre pour voir l'historique git du jeu
